@@ -39,4 +39,16 @@ Meteor.startup(function() {
     if (!user) {
         Accounts.createUser(accountData);
     }
+    Meteor.loginWithPassword(accountData.email, accountData.password);
+
+    cornerstoneWADOImageLoader.configure({
+        beforeSend: function(xhr) {
+            const userId = Meteor.userId();
+            const loginToken = Accounts._storedLoginToken();
+            if (userId && loginToken) {
+                xhr.setRequestHeader("x-user-id", userId);
+                xhr.setRequestHeader("x-auth-token", loginToken);
+            }
+        }
+    });
 });
