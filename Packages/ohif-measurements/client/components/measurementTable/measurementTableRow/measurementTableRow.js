@@ -10,7 +10,7 @@ Template.measurementTableRow.onCreated(() => {
     instance.getWarningMessages = () => {
         const measurementTypeId = instance.data.rowItem.measurementTypeId;
         const measurementNumber = instance.data.rowItem.measurementNumber;
-        const groupedNonConformities = instance.data.conformanceCriteria.groupedNonConformities.get() || {};
+        const groupedNonConformities = instance.data.conformanceCriteria && instance.data.conformanceCriteria.groupedNonConformities.get() || {};
         const nonconformitiesByMeasurementTypeId = groupedNonConformities[measurementTypeId] || {};
         const nonconformitiesByMeasurementNumbers = nonconformitiesByMeasurementTypeId.measurementNumbers || {};
         const nonconformitiesByMeasurementNumber = nonconformitiesByMeasurementNumbers[measurementNumber] || {};
