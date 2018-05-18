@@ -94,11 +94,10 @@ Template.viewer.onCreated(() => {
     const currentTimepointId = OHIF.viewer.data.currentTimepointId;
     const timepointApi = new TimepointApi(currentTimepointId);
     const measurementApi = new MeasurementApi(timepointApi);
-    const conformanceCriteria = new ConformanceCriteria(measurementApi, timepointApi);
+    //const conformanceCriteria = new ConformanceCriteria(measurementApi, timepointApi);
     const apis = {
         timepointApi,
-        measurementApi,
-        conformanceCriteria
+        measurementApi
     };
 
     Object.assign(OHIF.viewer, apis);
