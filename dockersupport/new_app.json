@@ -1,6 +1,6 @@
 {
   "apps" : [{
-    "name"        : "lesion-tracker",
+    "name"        : "ohif-viewer",
     "script"      : "main.js",
     "watch"       : true,
     "merge_logs"  : true,
@@ -20,7 +20,7 @@
 		        "requestOptions": {
 		          "auth": "orthanc:orthanc",
 		          "logRequests": true,
-		          "logResponses": true,
+		          "logResponses": false,
 		          "logTiming": true
 		        }
 		      }

@@ -6,7 +6,9 @@ services:
       - "27017:27017"
 
   lesiontracker:
-    build: lesion_tracker.dockerfile
+    build:
+      context: .
+      dockerfile: ./lesion_tracker.dockerfile
     ports:
       - "3001:3000"
     links:
@@ -14,6 +16,7 @@ services:
       - sampledata
     environment:
       - MONGO_URL=mongodb://mongo:27017/ohif
+      - METEOR_PACKAGE_DIRS=../Packages
     extra_hosts:
       - "pacsIP:192.168.1.11"
     volumes:
