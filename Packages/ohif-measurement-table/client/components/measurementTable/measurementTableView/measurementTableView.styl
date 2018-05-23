@@ -6,10 +6,10 @@
     theme('background-color', '$uiGrayDarker')
     margin-top: 2px
     padding: 10px 0
+    text-align: center;
 
-    .btn.js-pdf
-      theme('background-color', '$activeColor')
-      theme('border', '1px solid $uiBorderColorActive')
-      color: #000
-      display: table
-      margin: 0 auto
+    .btn
+      &.js-pdf, &.js-csv
+        theme('background-color', '$activeColor')
+        theme('border', '1px solid $uiBorderColorActive')
+        color: #000

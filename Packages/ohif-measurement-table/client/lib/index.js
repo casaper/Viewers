@@ -17,6 +17,7 @@ import './clearCornerstoneToolState';
 import './createTimepointForUnicStudyInstanceUID';
 import './deactivateAllToolData';
 import './exportPdf';
+import './exportToCsv';
 import './findAndRenderDisplaySet';
 import './getActiveTimepoint';
 import './getImageDataUrl';

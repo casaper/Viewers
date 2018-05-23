@@ -21,7 +21,11 @@ Template.measurementTableView.events({
     'click .js-pdf'(event, instance) {
         const { measurementApi, timepointApi } = instance.data;
         OHIF.measurements.exportPdf(measurementApi, timepointApi);
-    }
+    },
+    'click .js-csv'(event, instance) {
+        const { measurementApi, timepointApi } = instance.data;
+        OHIF.measurements.exportCSV(measurementApi, timepointApi);
+    },
 });
 
 Template.measurementTableView.helpers({
