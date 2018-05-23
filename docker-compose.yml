@@ -5,15 +5,22 @@ services:
     ports:
       - "27017:27017"
 
-  viewer:
-    image: ohif/viewer:latest
+  lesiontracker:
+    build: lesion_tracker.dockerfile
     ports:
-      - "3000:3000"
+      - "3001:3000"
     links:
       - mongo
+      - sampledata
     environment:
       - MONGO_URL=mongodb://mongo:27017/ohif
     extra_hosts:
       - "pacsIP:192.168.1.11"
     volumes:
-      - /opt/docker/ohif-viewer/app.json:/app/app.json
+      - ./dockersupport/lesion_tracker_app.json:/app/app.json
+
+  sampledata:
+    image: jodogne/orthanc-plugins
+    ports:
+      - 4242:4242
+      - 8042:8042
