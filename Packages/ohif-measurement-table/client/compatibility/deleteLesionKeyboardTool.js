@@ -9,10 +9,6 @@ const keys = {
 
 // Defined the toolTypes for which the delete dialog will be displayed when the keys are pressed
 const toolTypes = [
-    // 'bidirectional',
-    // 'targetCR',
-    // 'targetUN',
-    // 'nonTarget',
     'length',
     'ellipticalRoi',
     'rectangleRoi'

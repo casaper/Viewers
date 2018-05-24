@@ -4,41 +4,16 @@ import { Viewerbase } from 'meteor/ohif:viewerbase';
 Meteor.startup(function() {
     const toolManager = Viewerbase.toolManager;
 
-    toolManager.addTool('bidirectional', {
-        mouse: cornerstoneTools.bidirectional,
-        touch: cornerstoneTools.bidirectionalTouch
-    });
-
-    toolManager.addTool('nonTarget', {
-        mouse: cornerstoneTools.nonTarget,
-        touch: cornerstoneTools.nonTargetTouch
-    });
-
-    toolManager.addTool('scaleOverlayTool', {
-        mouse: cornerstoneTools.scaleOverlayTool,
-        touch: cornerstoneTools.scaleOverlayTool
-    });
-
     toolManager.addTool('deleteLesionKeyboardTool', {
         mouse: cornerstoneTools.deleteLesionKeyboardTool,
         touch: cornerstoneTools.deleteLesionKeyboardTool
     });
 
-    toolManager.addTool('targetCR', {
-        mouse: cornerstoneTools.targetCR,
-        touch: cornerstoneTools.targetCRTouch
-    });
-
-    toolManager.addTool('targetUN', {
-        mouse: cornerstoneTools.targetUN,
-        touch: cornerstoneTools.targetUNTouch
-    });
-
     // Update default state for tools making sure each tool is only inserted once
     let currentDefaultStates = toolManager.getToolDefaultStates();
     let newDefaultStates = {
-        enable: [ 'scaleOverlayTool' ],
-        deactivate: ['length'],
+        enable: [],
+        deactivate: [],
         activate: ['deleteLesionKeyboardTool']
     };
 
