@@ -9,7 +9,7 @@ const headers = {
     seriesModality: 'Series Modality',
     seriesDate: 'Series Date',
     seriesDescription: 'Series Description',
-    imageId: 'ImageId',
+    seriesInstanceUid: 'Series InstanceUid',
     measurementTool: 'Measurement Tool',
     measurementDescription: 'Measurement Description',
     length: 'Length',
@@ -37,7 +37,7 @@ export const getCSVMeasurementData = async (measurementApi, timepointApi) => {
         lineData.push(measurementLine.seriesModality);
         lineData.push(measurementLine.seriesDate);
         lineData.push(measurementLine.seriesDescription);
-        lineData.push(measurementLine.imageId);
+        lineData.push(measurementLine.seriesInstanceUid);
         lineData.push(measurementLine.measurementTool);
         lineData.push(measurementLine.measurementDescription);
         lineData.push(measurementLine.length);

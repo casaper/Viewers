@@ -16,7 +16,7 @@ export const getExportMeasurementData = async (measurementApi, timepointApi) => 
         studyInfo: {
             patientName: patientName,
             mrn: mrn,
-            studyDate: moment(study.studyDate).toDate(),
+            studyDate: moment(study.studyDate).format('MMM DD YYYY'),
             studyDescription: study.studyDescription
         },
         data: []
@@ -25,20 +25,20 @@ export const getExportMeasurementData = async (measurementApi, timepointApi) => 
     const addNewMeasurement = async (measurement) => {
         const imageDataUrl = await OHIF.measurements.getImageDataUrl({ measurement });
         const imageId = OHIF.viewerbase.getImageIdForImagePath(measurement.imagePath);
-        const { seriesDescription, seriesDate, modality } = cornerstone.metaData.get('series', imageId);
+        const { seriesDescription, seriesDate, modality, seriesInstanceUid } = cornerstone.metaData.get('series', imageId);
+        const meanStdDev = measurement.meanStdDev || {};
 
         measurementData.data.push({
             seriesModality: modality,
-            seriesDate: moment(seriesDate).toDate(),
+            seriesDate: moment(seriesDate).format('MMM DD YYYY'),
             seriesDescription: seriesDescription,
-            imageId: imageId,
+            seriesInstanceUid: seriesInstanceUid,
             measurementTool: measurement.toolType,
-            measurementDescription: OHIF.measurements.getLocationLabel(measurement.location) || '',
-            measurementValue: info,
+            measurementDescription: OHIF.measurements.getLocationLabel(measurement.location) || 'No description',
             number: measurement.measurementNumber,
             length: measurement.length || '-',
-            mean: measurement.meanStdDev.mean || '-', 
-            stdDev: measurement.meanStdDev.stdDev || '-',
+            mean: meanStdDev.mean || '-', 
+            stdDev: meanStdDev.stdDev || '-',
             area: measurement.area || '-'
         });
     };
