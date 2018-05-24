@@ -5,14 +5,14 @@ import { cornerstone } from 'meteor/ohif:cornerstone';
 
 export default function({ instance, eventData, tool, toolGroupId, toolGroup }) {
     OHIF.log.info('CornerstoneToolsMeasurementRemoved');
-    const measurementData = eventData.measurementData;
+    const { measurementData, toolType } = eventData;
     const { measurementApi, timepointApi } = instance.data;
-    const Collection = measurementApi.tools[eventData.toolType];
+    const Collection = measurementApi.tools[toolType];
 
     // Stop here if the tool data shall not be persisted (e.g. temp tools)
     if (!Collection) return;
 
-    const measurementTypeId = measurementApi.toolsGroupsMap[measurementData.toolType];
+    const measurementTypeId = measurementApi.toolsGroupsMap[toolType];
     const measurement = Collection.findOne(measurementData._id);
 
     // Stop here if the measurement is already gone or never existed
@@ -34,6 +34,6 @@ export default function({ instance, eventData, tool, toolGroupId, toolGroup }) {
 
     // Notify that viewer suffered changes
     if (tool.toolGroup !== 'temp') {
-        OHIF.measurements.triggerTimepointUnsavedChanges(eventData.toolType);
+        OHIF.measurements.triggerTimepointUnsavedChanges(toolType);
     }
 }
