@@ -86,7 +86,7 @@ Template.viewer.onCreated(() => {
     // Define the OHIF.viewer.data global object
     OHIF.viewer.data = OHIF.viewer.data || Session.get('ViewerData') || {};
 
-    const { TimepointApi, MeasurementApi, ConformanceCriteria } = OHIF.measurements;
+    const { TimepointApi, MeasurementApi } = OHIF.measurements;
 
     OHIF.measurements.createTimepointForUnicStudyInstanceUID(instance.data.studies[0]);
     OHIF.viewer.data.currentTimepointId = instance.data.studies[0].studyInstanceUid;
@@ -94,7 +94,6 @@ Template.viewer.onCreated(() => {
     const currentTimepointId = OHIF.viewer.data.currentTimepointId;
     const timepointApi = new TimepointApi(currentTimepointId);
     const measurementApi = new MeasurementApi(timepointApi);
-    //const conformanceCriteria = new ConformanceCriteria(measurementApi, timepointApi);
     const apis = {
         timepointApi,
         measurementApi

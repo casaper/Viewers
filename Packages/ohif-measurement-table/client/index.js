@@ -6,7 +6,4 @@ import './compatibility';
 
 import './tools.js';
 
-// UI Components
-import './components';
-
 import './lib';
