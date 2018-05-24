@@ -10,24 +10,6 @@
                 {{>measurementLightTableRow (clone this rowItem=rowItem)}}
             {{/each}}
         {{/each}}
-
-        {{#each newLesionGroup in config.newLesions}}
-            {{#let toolGroup=(getNewLesionsToolGroup newLesionGroup)}}
-            {{#let newMeasurements=(newLesionsMeasurements toolGroup)}}
-                {{#if newMeasurements.length}}
-                    {{#let collection=newMeasurements}}
-                        {{>measurementLightTableHeaderRow (clone this
-                            toolGroup=toolGroup
-                            measurementRows=collection)}}
-
-                        {{#each entry in collection}}
-                            {{>measurementLightTableRow (clone this rowItem=entry)}}
-                        {{/each}}
-                    {{/let}}
-                {{/if}}
-            {{/let}}
-            {{/let}}
-        {{/each}}
     {{/let}}
     {{#if hasAnyMeasurement}}
     <div class="report-area">

@@ -4,39 +4,7 @@ import { $ } from 'meteor/jquery';
 import { OHIF } from 'meteor/ohif:core';
 import { cornerstone } from 'meteor/ohif:cornerstone';
 
-Template.measurementLightTableRow.onCreated(() => {
-    const instance = Template.instance();
-
-    instance.getWarningMessages = () => {
-        const measurementTypeId = instance.data.rowItem.measurementTypeId;
-        const measurementNumber = instance.data.rowItem.measurementNumber;
-        const groupedNonConformities = instance.data.conformanceCriteria && instance.data.conformanceCriteria.groupedNonConformities.get() || {};
-        const nonconformitiesByMeasurementTypeId = groupedNonConformities[measurementTypeId] || {};
-        const nonconformitiesByMeasurementNumbers = nonconformitiesByMeasurementTypeId.measurementNumbers || {};
-        const nonconformitiesByMeasurementNumber = nonconformitiesByMeasurementNumbers[measurementNumber] || {};
-
-        return _.uniq(nonconformitiesByMeasurementNumber.messages || []);
-    };
-});
-
-Template.measurementLightTableRow.helpers({
-    hasWarnings() {
-        return !!Template.instance().getWarningMessages().length;
-    }
-});
-
 Template.measurementLightTableRow.events({
-    'click .measurementRowSidebar .warning-icon'(event, instance) {
-        event.stopPropagation();
-        OHIF.ui.showDialog('measurementLightTableWarningsDialog', {
-            messages: instance.getWarningMessages(),
-            position: {
-                x: event.clientX,
-                y: event.clientY
-            }
-        });
-    },
-
     'click .measurementRowSidebar'(event, instance) {
         const $row = instance.$('.measurementLightTableRow');
         const rowItem = instance.data.rowItem;

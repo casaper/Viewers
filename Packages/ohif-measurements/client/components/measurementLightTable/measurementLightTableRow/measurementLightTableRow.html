@@ -4,13 +4,6 @@
             <div class="measurementNumber">
                 {{rowItem.measurementNumber}}
             </div>
-            {{#if hasWarnings}}
-                <div class="warning-icon">
-                    <svg>
-                        <use xlink:href={{absoluteUrl "packages/ohif_viewerbase/assets/icons.svg#icon-ui-warning"}}></use>
-                    </svg>
-                </div>
-            {{/if}}
             {{#if rowItem.responseStatus}}
                 <div class="response-status-icon">
                     {{rowItem.responseStatus}}
