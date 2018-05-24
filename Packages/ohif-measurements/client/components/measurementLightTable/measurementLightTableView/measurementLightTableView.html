@@ -1,0 +1,38 @@
+<template name="measurementLightTableView">
+    {{#let config=measurementConfiguration groups=measurementGroups.get}}
+        {{#each measurementGroup in groups}}
+            {{! #if hasMeasurements measurementGroup.toolGroup.id}}
+                {{>measurementLightTableHeaderRow (clone this
+                    toolGroup=measurementGroup.toolGroup
+                    measurementRows=measurementGroup.measurementRows)}}
+            {{! /if}}
+            {{#each rowItem in measurementGroup.measurementRows}}
+                {{>measurementLightTableRow (clone this rowItem=rowItem)}}
+            {{/each}}
+        {{/each}}
+
+        {{#each newLesionGroup in config.newLesions}}
+            {{#let toolGroup=(getNewLesionsToolGroup newLesionGroup)}}
+            {{#let newMeasurements=(newLesionsMeasurements toolGroup)}}
+                {{#if newMeasurements.length}}
+                    {{#let collection=newMeasurements}}
+                        {{>measurementLightTableHeaderRow (clone this
+                            toolGroup=toolGroup
+                            measurementRows=collection)}}
+
+                        {{#each entry in collection}}
+                            {{>measurementLightTableRow (clone this rowItem=entry)}}
+                        {{/each}}
+                    {{/let}}
+                {{/if}}
+            {{/let}}
+            {{/let}}
+        {{/each}}
+    {{/let}}
+    {{#if (hasMeasurements 'allTools')}}
+        <div class="report-area">
+            <div class="btn btn-sm js-pdf">Generate Report</div>
+            <div class="btn btn-sm js-csv">Export to CSV</div>
+        </div>
+    {{/if}}
+</template>

@@ -1,0 +1,13 @@
+<template name="measurementLightTableHeaderRow">
+    <div class="measurementLightTableHeaderRow">
+        {{#if anyUnmarkedLesionsLeft}}
+            <div class="add js-setTool">
+                <svg>
+                    <use xlink:href={{absoluteUrl "packages/ohif_viewerbase/assets/icons.svg#icon-ui-add"}}></use>
+                </svg>
+            </div>
+        {{/if}}
+        <div class="type">{{toolGroup.name}}</div>
+        <div class="numberOfMeasurements">{{numberOfMeasurements toolGroup.id}}</div>
+    </div>
+</template>
