@@ -24,21 +24,22 @@ export const getExportMeasurementData = async (measurementApi, timepointApi) => 
 
     const addNewMeasurement = async (measurement) => {
         const imageDataUrl = await OHIF.measurements.getImageDataUrl({ measurement });
-            
         const imageId = OHIF.viewerbase.getImageIdForImagePath(measurement.imagePath);
-        const info = measurement.length || '';
-        const type = measurement.toolType || '';
-        
+        const { seriesDescription, seriesDate, modality } = cornerstone.metaData.get('series', imageId);
+
         measurementData.data.push({
-            seriesModality: 'Series Modality',
-            seriesDate: 'Series Date',
-            seriesDescription: 'Series Description',
-            imageId: '<imageId>',
-            imageDataUrl: imageDataUrl,
-            measurementTool: type,
+            seriesModality: modality,
+            seriesDate: moment(seriesDate).toDate(),
+            seriesDescription: seriesDescription,
+            imageId: imageId,
+            measurementTool: measurement.toolType,
             measurementDescription: OHIF.measurements.getLocationLabel(measurement.location) || '',
             measurementValue: info,
             number: measurement.measurementNumber,
+            length: measurement.length || '-',
+            mean: measurement.meanStdDev.mean || '-', 
+            stdDev: measurement.meanStdDev.stdDev || '-',
+            area: measurement.area || '-'
         });
     };
 

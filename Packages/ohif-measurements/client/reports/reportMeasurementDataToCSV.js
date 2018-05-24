@@ -12,21 +12,22 @@ const headers = {
     imageId: 'ImageId',
     measurementTool: 'Measurement Tool',
     measurementDescription: 'Measurement Description',
-    measurementValue: 'Measurement Value'
+    length: 'Length',
+    mean: 'Mean',
+    stdDev: 'stdDev',
+    area: 'area'
 };
 
 export const getCSVMeasurementData = async (measurementApi, timepointApi) => {
     let firstItem = true;
-    let lineData;
+    let lineData= [];
     let csvData = '';
     const dataObject = await getExportMeasurementData(measurementApi, timepointApi);
 
-    lineData = [];
     for(header in headers) {
         lineData.push(headers[header]);
     }
     csvData += lineData.join(columnDelimiter) + lineDelimiter;
-
 
     for(measurementLine of dataObject.data) {
         lineData = [];
@@ -39,7 +40,10 @@ export const getCSVMeasurementData = async (measurementApi, timepointApi) => {
         lineData.push(measurementLine.imageId);
         lineData.push(measurementLine.measurementTool);
         lineData.push(measurementLine.measurementDescription);
-        lineData.push(measurementLine.measurementValue);
+        lineData.push(measurementLine.length);
+        lineData.push(measurementLine.mean);
+        lineData.push(measurementLine.stdDev);
+        lineData.push(measurementLine.area);
 
         csvData += lineData.join(columnDelimiter) + lineDelimiter;
     }
