@@ -27,6 +27,16 @@ const LengthSchema = new SimpleSchema([MeasurementSchemaTypes.CornerstoneToolMea
         type: Number,
         label: 'Measurement Number'
     },
+    location: {
+        type: String,
+        label: 'Location',
+        optional: true
+    },
+    description: {
+        type: String,
+        label: 'Description',
+        optional: true
+    },
     toolType: {
         type: String,
         label: 'Measurement Tool Type',

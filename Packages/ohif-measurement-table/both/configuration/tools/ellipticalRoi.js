@@ -57,6 +57,16 @@ const EllipticalRoiSchema = new SimpleSchema([MeasurementSchemaTypes.Cornerstone
         label: 'Measurement Tool Type',
         defaultValue: 'ellipticalRoi'
     },
+    location: {
+        type: String,
+        label: 'Location',
+        optional: true
+    },
+    description: {
+        type: String,
+        label: 'Description',
+        optional: true
+    },
     area: {
         type: Number,
         label: 'Ellipse Area value',
