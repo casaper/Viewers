@@ -29,6 +29,17 @@ Template.measurementLightTableView.events({
 });
 
 Template.measurementLightTableView.helpers({
+    hasAnyMeasurement() {
+        const instance = Template.instance();
+        const groups = instance.data.measurementGroups.get();
+
+        if (!groups) {
+            return false;
+        }
+
+        const group = _.find(groups, item => item.measurementRows.length > 0);
+        return group;
+    },
     hasMeasurements(toolGroupId) {
         const instance = Template.instance();
         const groups = instance.data.measurementGroups.get();

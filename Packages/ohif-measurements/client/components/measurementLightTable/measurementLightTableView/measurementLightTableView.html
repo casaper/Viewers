@@ -29,6 +29,7 @@
             {{/let}}
         {{/each}}
     {{/let}}
+    {{#if hasAnyMeasurement}}
     <div class="report-area">
         {{#if or (hasMeasurements 'targets') (hasMeasurements 'nonTargets')}}
         <div class="btn btn-sm js-pdf">Generate Report</div>
@@ -37,4 +38,5 @@
         <div class="btn btn-sm js-csv">Export to CSV</div>
         {{/if}}
     </div>
+    {{/if}}
 </template>
