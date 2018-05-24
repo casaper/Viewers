@@ -1,8 +1,3 @@
-Npm.depends({
-    ajv: '4.10.4',
-    jspdf: '1.3.3'
-});
-
 Package.describe({
     name: 'ohif:measurement-table',
     summary: 'OHIF Measurement table',
@@ -19,11 +14,6 @@ Package.onUse(function(api) {
     api.use('random');
 
     api.use('validatejs');
-    api.use('momentjs:moment');
-
-    // Schema for Data Models
-    api.use('aldeed:simple-schema');
-    api.use('aldeed:collection2');
 
     // Template overriding
     api.use('aldeed:template-extension@4.0.0');
@@ -34,10 +24,7 @@ Package.onUse(function(api) {
     api.use('ohif:core');
     api.use('ohif:cornerstone-settings');
     api.use('ohif:studies');
-    api.use('ohif:select-tree');
-    api.use('ohif:log');
-    api.use('ohif:hanging-protocols');
-    api.use('ohif:viewerbase');
+    api.use('ohif:measurements');
 
     api.addFiles('both/index.js', [ 'client', 'server' ]);
 
@@ -48,5 +35,4 @@ Package.onUse(function(api) {
     // Export client-side collections
     api.export('LesionLocations', 'client');
     api.export('LocationResponses', 'client');
-    api.export('MeasurementSchemaTypes', ['client', 'server']);
 });

@@ -1,5 +1,5 @@
 import { SimpleSchema } from 'meteor/aldeed:simple-schema';
-import { MeasurementSchemaTypes } from 'meteor/ohif:measurement-table/both/schema/measurements';
+import { MeasurementSchemaTypes } from 'meteor/ohif:measurements/both/schema/measurements';
 import { numberWithCommas } from '../../utils/utilityFunctions';
 
 const CornerstoneHandleSchema = MeasurementSchemaTypes.CornerstoneHandleSchema;

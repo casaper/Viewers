@@ -1,5 +1,3 @@
-import './helpers';
-
 // Client-side collections
 import './collections';
 

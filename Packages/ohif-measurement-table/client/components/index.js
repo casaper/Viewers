@@ -8,6 +8,3 @@ import './trialOptionsModal/recistDescription.html';
 
 import './trialOptionsModal/trialOptionsModal.html';
 import './trialOptionsModal/trialOptionsModal.js';
-
-import './measurementTable';
-import './measureFlow';

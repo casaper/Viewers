@@ -45,6 +45,7 @@ ohif:dicom-services
 ohif:hanging-protocols
 ohif:metadata
 ohif:measurement-table
+ohif:measurements
 
 twbs:bootstrap
 fortawesome:fontawesome
