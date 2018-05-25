@@ -1,0 +1,47 @@
+{
+  "apps" : [{
+    "name"        : "lesion-tracker",
+    "script"      : "main.js",
+    "watch"       : true,
+    "merge_logs"  : true,
+    "cwd"         : "/app/bundle/",
+    "env": {
+    	"METEOR_SETTINGS": {
+		  "servers": {
+		    "dicomWeb": [
+		      {
+		        "name": "Orthanc",
+		        "wadoUriRoot": "http://sampledata:8042/wado",
+		        "qidoRoot": "http://sampledata:8042/dicom-web",
+		        "wadoRoot": "http://sampledata:8042/dicom-web",
+		        "qidoSupportsIncludeField": false,
+		        "imageRendering": "wadouri",
+		        "thumbnailRendering": "wadors",
+		        "requestOptions": {
+		          "auth": "orthanc:orthanc",
+		          "logRequests": true,
+		          "logResponses": true,
+		          "logTiming": true
+		        }
+		      }
+		    ]
+		  },
+		  "defaultServiceType": "dicomWeb",
+			"dropCollections": true,
+			"public": {
+				"verifyEmail": false,
+				"ui": {
+						"studyListFunctionsEnabled": true,
+						"leftSidebarOpen": true,
+						"displaySetNavigationLoopOverSeries": true,
+						"displaySetNavigationMultipleViewports": true,
+						"autoPositionMeasurementsTextCallOuts": "TRLB"
+				}
+			},
+		  "proxy": {
+		    "enabled": true
+		  }
+		}
+    }
+  }]
+}
