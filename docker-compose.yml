@@ -6,9 +6,7 @@ services:
       - "27017:27017"
 
   lesiontracker_dev_build:
-    build:
-      context: .
-      dockerfile: ./LesionTracker.dockerfile
+    image: casaper/lesion-tracker-docker-image
     ports:
       - "3000:3000"
     expose:
