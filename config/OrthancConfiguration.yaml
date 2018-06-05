@@ -182,7 +182,7 @@ DicomScuTimeout: 10
 # in the PEM format (as in the "--cert" option of curl), or to
 # enable PKCS#11 authentication for smart cards.
 
-OrthancPeers:
+OrthancPeers: {}
 #  peer:
 #    Url: http://127.0.0.1:8043/
 #    Username: alice
@@ -331,8 +331,8 @@ LoadPrivateDictionary: true
 # possibly the Private Creator (for private tags).
 
 # Dictionary:
-#   - '0014,1020': [ "DA", "ValidationExpiryDate", 1, 1 ]
-#   - '00e1,10c2': [ "UI", "PET-CT Multi Modality Name", 1, 1, "ELSCINT1" ]
-#   - '7053,1003': [ "ST", "Original Image Filename", 1, 1, "Philips PET Private Group" ]
-#   - '2001,5f': [ "SQ", "StackSequence", 1, 1, "Philips Imaging DD 001" ]
+#   '0014,1020': [ "DA", "ValidationExpiryDate", 1, 1 ]
+#   '00e1,10c2': [ "UI", "PET-CT Multi Modality Name", 1, 1, "ELSCINT1" ]
+#   '7053,1003': [ "ST", "Original Image Filename", 1, 1, "Philips PET Private Group" ]
+#   '2001,5f': [ "SQ", "StackSequence", 1, 1, "Philips Imaging DD 001" ]
 Dictionary: {}
