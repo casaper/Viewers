@@ -4,16 +4,16 @@
     "script"      : "main.js",
     "watch"       : true,
     "merge_logs"  : true,
-    "cwd"         : "/app/bundle/",
+    "cwd"         : "/app/",
     "env": {
     	"METEOR_SETTINGS": {
 		  "servers": {
 		    "dicomWeb": [
 		      {
 		        "name": "Orthanc",
-		        "wadoUriRoot": "http://sampledata:8042/wado",
-		        "qidoRoot": "http://sampledata:8042/dicom-web",
-		        "wadoRoot": "http://sampledata:8042/dicom-web",
+		        "wadoUriRoot": "http://orthanc:8042/wado",
+		        "qidoRoot": "http://orthanc:8042/dicom-web",
+		        "wadoRoot": "http://orthanc:8042/dicom-web",
 		        "qidoSupportsIncludeField": false,
 		        "imageRendering": "wadouri",
 		        "thumbnailRendering": "wadors",
