@@ -12,3 +12,5 @@ package-lock.json
 docs/_bookmeteor_bootstrap_windows/OrthancInstaller-Win64-18.5.2.exe
 meteor_bootstrap_windows/OrthancInstaller-Win64-18.5.2.exe
 meteor_bootstrap_windows/meteor-bootstrap-1.7.0.1-os.windows.x86_64.tar.gz
+*.dcm
+dicom_example_images/LungStage.zip
