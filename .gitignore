@@ -9,4 +9,6 @@ npm-debug.log
 Packages/active-entry/helloworld/
 LesionTracker/tests/nightwatch/reports/
 package-lock.json
-docs/_book
+docs/_bookmeteor_bootstrap_windows/OrthancInstaller-Win64-18.5.2.exe
+meteor_bootstrap_windows/OrthancInstaller-Win64-18.5.2.exe
+meteor_bootstrap_windows/meteor-bootstrap-1.7.0.1-os.windows.x86_64.tar.gz
