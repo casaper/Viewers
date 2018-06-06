@@ -9,8 +9,6 @@ if (!(Test-Path -Path $PROFILE.AllUsersCurrentHost))
 if (!(Test-Path -Path $PROFILE.CurrentUserAllHosts))
 { New-Item -Type File -Path $PROFILE.CurrentUserAllHosts -Force }
 
-. $profile
-& cat "$env:USERPROFILE\scripts\ReloadSession.ps1" | sc $profile
 
 Write-Host "Set consistent environment variables with paths" -ForegroundColor Magenta
 $LesionTrackerCloneDir = Join-Path $env:USERPROFILE 'Viewers'
@@ -25,8 +23,13 @@ $MeteorBuildDir = Join-Path $env:USERPROFILE 'app'
 
 [Environment]::SetEnvironmentVariable("REPO_TARGET_BRANCH", 'features/lesion_tracker_in_dev_mode', "Machine")
 
+
+[Environment]::SetEnvironmentVariable("NODE_ENV", 'production', "Machine")
+[Environment]::SetEnvironmentVariable("PORT", '3000', "Machine")
 $PowerShellProfileFile = Join-Path $env:USERPROFILE 'Documents\WindowsPowerShell'
 [Environment]::SetEnvironmentVariable("POWER_SHELL_PROFILE_FILE", "$PowerShellProfileFile", "Machine")
 
 Write-Host "Display current Env:" -ForegroundColor Magenta
 Get-ChildItem Env:
+
+. $profile
