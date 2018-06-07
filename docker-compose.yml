@@ -9,8 +9,12 @@ services:
     image: casaper/lesion-tracker-docker-image
     ports:
       - "3000:3000"
+      - "11115:11115"
+      - "4243:4243"
     expose:
       - "3000"
+      - "11115"
+      - "4243"
     links:
       - mongo
       - orthanc
@@ -23,14 +27,16 @@ services:
     volumes:
       - ./Packages:/Packages
       - ./LesionTracker:/home/app/LesionTracker
-      - ./config/lesionTrackerDockerLocal.json:/home/app/app.json
+      - ./config/lesionTrackerDockerDimse.json:/home/app/app.json
     command:
       - /home/app/.meteor/meteor
       - run
       - --settings=/home/app/app.json
 
   orthanc:
-    image: jodogne/orthanc-plugins
+    volumes:
+      - ./config/OrthancConfiguration.json:/etc/orthanc/orthanc.json
+    image: jodogne/orthanc
     ports:
       - 4242:4242
       - 8042:8042
