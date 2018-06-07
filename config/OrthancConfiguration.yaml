@@ -2,17 +2,17 @@
 # General configuration of Orthanc
 # The logical name of this instance of Orthanc. This one is
 # displayed in Orthanc Explorer and at the URI "/system".
-Name: MyOrthanc
+Name: Orthanc Docker
 
 # Path to the directory that holds the heavyweight files (i.e. the
 # raw DICOM instances). Backslashes must be either escaped by
 # doubling them, or replaced by forward slashes "/".
-StorageDirectory: OrthancStorage
+StorageDirectory: /var/lib/orthanc/db
 
 # Path to the directory that holds the SQLite index (if unset, the
 # value of StorageDirectory is used). This index could be stored on
 # a RAM-drive or a SSD device for performance reasons.
-IndexDirectory: OrthancStorage
+IndexDirectory: /var/lib/orthanc/db
 
 # Enable the transparent compression of the DICOM instances
 StorageCompression: false
@@ -36,7 +36,8 @@ LuaScripts: []
 # folders, in which case they will be scanned non-recursively to
 # find shared libraries. Backslashes must be either escaped by
 # doubling them, or replaced by forward slashes "/".
-Plugins: []
+Plugins:
+  - /usr/local/share/orthanc/plugins
 
 # Configuration of the HTTP server
 
@@ -95,7 +96,7 @@ RleTransferSyntaxAccepted: true
 
 # Whether Orthanc accepts to act as C-Store SCP for unknown storage
 # SOP classes (aka. "promiscuous mode")
-UnknownSopClassAccepted: false
+UnknownSopClassAccepted: true
 
 # Set the timeout (in seconds) after which the DICOM associations
 # are closed by the Orthanc SCP (server) if no further DIMSE
@@ -105,7 +106,7 @@ DicomScpTimeout: 30
 # Security-related options for the HTTP server
 
 # Whether remote hosts can connect to the HTTP server
-RemoteAccessAllowed: false
+RemoteAccessAllowed: true
 
 # Whether or not SSL is enabled
 SslEnabled: false
@@ -115,11 +116,12 @@ SslEnabled: false
 SslCertificate: certificate.pem
 
 # Whether or not the password protection is enabled
-AuthenticationEnabled: false
+AuthenticationEnabled: true
 
 # The list of the registered users. Because Orthanc uses HTTP
 # Basic Authentication, the passwords are stored as plain text.
-RegisteredUsers: {}
+RegisteredUsers:
+  orthanc: orthanc
 
 # Network topology
 
@@ -144,7 +146,11 @@ RegisteredUsers: {}
 # This parameter is case-sensitive.
 
 ## clearcanvas: ["CLEARCANVAS", "192.168.1.1", 104, "ClearCanvas"]
-DicomModalities: {}
+DicomModalities:
+  OHIFDCM:
+    - OHIFDCM
+    - lesiontracker_dev_build
+    - 4243
 
 # Whether the Orthanc SCP allows incoming C-Echo requests, even
 # from SCU modalities it does not know about (i.e. that are not
@@ -196,7 +202,7 @@ OrthancPeers: {}
 # empty string, no HTTP proxy is used. For instance:
 #   "HttpProxy" : "192.168.0.1:3128"
 #   "HttpProxy" : "proxyUser:proxyPassword@192.168.0.1:3128"
-HttpProxy:
+HttpProxy: ""
 
 # Set the timeout for HTTP requests issued by Orthanc (in seconds).
 HttpTimeout: 10
@@ -206,14 +212,14 @@ HttpTimeout: 10
 # Pay attention that setting this option to "false" results in
 # security risks!
 # Reference: http://curl.haxx.se/docs/sslcerts.html
-HttpsVerifyPeers: true
+HttpsVerifyPeers: false
 
 # Path to the CA (certification authority) certificates to validate
 # peers in HTTPS requests. From curl documentation ("--cacert"
 # option): "Tells curl to use the specified certificate file to
 # verify the peers. The file may contain multiple CA
 # certificates. The certificate(s) must be in PEM format."
-HttpsCACertificates:
+HttpsCACertificates: ""
 
 # Advanced options
 
