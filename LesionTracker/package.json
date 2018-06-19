@@ -4,9 +4,9 @@
   "scripts": {
     "lint": "eslint .",
     "fix": "eslint --fix .",
-    "pretest": "cypress run",
-    "cypress:gui": "cypress open",
-    "cypress:headless": "cypress run"
+    "pretest": "",
+    "cypress:gui": "node_modules/.bin/cypress open",
+    "cypress:headless": "node_modules/.bin/cypress run"
   },
   "version": "1.0.0",
   "description": "",
