@@ -1,32 +1,32 @@
 sudo: required
 
 language: node_js
-node_js:
-  - "8"
+node_js: ["8"]
 
 cache:
   directories:
     - node_modules
     - $HOME/.meteor/
+    - LesionTracker/node_modules
+    - $HOME/.cache/Cypress
 
 services:
   - docker
 
 env:
   global:
-    - METEOR_PACKAGE_DIRS=../Packages tar=bsdtar ROOT_URL=http://localhost:3000 PORT=3000 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 APP_ENV=dev NODE_ENV=development
+    tar: bsdtar
+    LANG: en_US.UTF-8
+    LC_ALL: en_US.UTF-8
+    ORTHANC_IMG: casaper/orthanc-examples
+    ORTHANC_NAME: orthanc_container
+    REPO: /home/travis/build/casaper/Viewers
+    L_T_PATH:  /home/travis/build/casaper/Viewers/LesionTracker
+    METEOR_EX: /home/travis/.meteor/meteor
+    CYPRESS: /home/travis/build/casaper/Viewers/LesionTracker/node_modules/.bin/cypress
+    METEOR_PACKAGE_DIRS: /home/travis/build/casaper/Viewers/Packages
+    ROOT_URL: http://127.0.0.1:3000
+    PORT: '3000'
 
-before_install:
-  - sudo apt-get install -y curl g++ build-essential python
-  - sudo apt-get install -y --no-install-recommends bsdtar
-  - export tar='bsdtar'
-  - type /home/travis/.meteor/meteor || curl https://install.meteor.com | /bin/sh
-  - docker pull casaper/orthanc-examples
-  - docker run -d --name orthanc_container -p 127.0.0.1:4242:4242 -p 127.0.0.1:8042:8042 casaper/orthanc-examples
-
-before_script:
-  - docker exec orthanc_container /bin/sh /scripts/upload_images.sh
-  - cd LesionTracker
-  - /home/travis/.meteor/meteor npm install
-  - /home/travis/.meteor/meteor run --settings=../config/lesionTrackerTravis.json  &
-  - sleep 60 && curl -i 'http://127.0.0.1:3000'; sleep 60 && curl -i 'http://127.0.0.1:3000'
+script:
+  - bash ./test/setup_and_run_cypress_at_travis.sh
