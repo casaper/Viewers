@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint .",
     "fix": "eslint --fix .",
-    "pretest": "npm run lint --silent"
+    "pretest": ""
   },
   "version": "1.0.0",
   "description": "",

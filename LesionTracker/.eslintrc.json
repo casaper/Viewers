@@ -7,7 +7,6 @@
 		"meteor"
 	],
 	"env": {
-		/* Allows global vars from the Meteor environment to pass and enables certain rules */
 		"meteor": true,
 		"node": true,
 		"browser": true
@@ -21,8 +20,7 @@
 	},
 	"rules": {
 		"meteor/no-session": 0, // We are actually using Session for now...
-		"meteor/eventmap-params": [2, {"eventParamName": "event"}],
-		"meteor/eventmap-params": [2, {"templateInstanceParamName": "instance"}],
+		"meteor/eventmap-params": [2, {"eventParamName": "event", "templateInstanceParamName": "instance"}],
 		"import/no-extraneous-dependencies": 0,
 		"import/no-unresolved": 0, // There are a bunch of ESLint problems with Meteor's resolver
 		"import/no-duplicates": 0, // So we are disabling these for now
@@ -40,8 +38,8 @@
 		"no-mixed-operators": 0,
 		"arrow-body-style": 0,
 		"valid-typeof": 0,
-		"import/prefer-default-export": 0
-		"no-undef": 0 
+		"import/prefer-default-export": 0,
+		"no-undef": 0
 	},
 	"globals": {}
 }
