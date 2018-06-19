@@ -34,9 +34,7 @@ services:
       - --settings=/home/app/app.json
 
   orthanc:
-    volumes:
-      - ./config/OrthancConfiguration.json:/etc/orthanc/orthanc.json
-    image: jodogne/orthanc
+    image: casaper/orthanc-examples
     ports:
       - 4242:4242
       - 8042:8042
