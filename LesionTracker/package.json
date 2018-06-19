@@ -4,7 +4,7 @@
   "scripts": {
     "lint": "eslint .",
     "fix": "eslint --fix .",
-    "pretest": "",
+    "pretest": "cypress run",
     "cypress:gui": "cypress open",
     "cypress:headless": "cypress run"
   },

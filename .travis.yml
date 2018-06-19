@@ -15,7 +15,7 @@ services:
 
 env:
   global:
-    - METEOR_PACKAGE_DIRS=../Packages tar=bsdtar ROOT_URL=http://localhost:3000 PORT=3000 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8 APP_ENV=dev NODE_ENV=development
+    - METEOR_PACKAGE_DIRS=../Packages tar=bsdtar ROOT_URL=http://localhost:3000 PORT=3000 LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8
 
 before_install:
   - sudo apt-get install -y curl g++ build-essential python
@@ -29,8 +29,7 @@ before_script:
   - docker exec orthanc_container /bin/sh /scripts/upload_images.sh
   - cd LesionTracker
   - /home/travis/.meteor/meteor npm install
-  - /home/travis/.meteor/meteor run --settings=../config/lesionTrackerTravis.json  &
-  - sleep 60 && curl -i 'http://127.0.0.1:3000'; sleep 60 && curl -i 'http://127.0.0.1:3000'
 
 script:
-  - /home/travis/.meteor/meteor npm run cypress:headless
+  - /home/travis/.meteor/meteor run --settings=../config/lesionTrackerTravis.json
+
