@@ -8,6 +8,7 @@ cache:
   directories:
     - node_modules
     - $HOME/.meteor/
+    - LesionTracker/node_modules
 
 services:
   - docker
@@ -30,3 +31,6 @@ before_script:
   - /home/travis/.meteor/meteor npm install
   - /home/travis/.meteor/meteor run --settings=../config/lesionTrackerTravis.json  &
   - sleep 60 && curl -i 'http://127.0.0.1:3000'; sleep 60 && curl -i 'http://127.0.0.1:3000'
+
+script:
+  - /home/travis/.meteor/meteor npm run cypress:headless
