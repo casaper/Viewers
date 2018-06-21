@@ -8,7 +8,6 @@ node_modules
 npm-debug.log
 Packages/active-entry/helloworld/
 LesionTracker/tests/nightwatch/reports/
-package-lock.json
 docs/_booktest/images
 test/images
 LesionTracker/.cypress/integration/examples
