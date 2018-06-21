@@ -1,4 +1,3 @@
-import { find } from 'lodash'
 
 describe('view the first images', () => {
   it('has complete login form at main url when not logged in', () => {
@@ -73,5 +72,40 @@ describe('view the first images', () => {
     cy.root()
       .get('button#signUpPageSignInButton')
       .should('contain', 'Have an account? Sign in')
+  })
+
+  it('can sign up for an account', () => {
+
+    cy.task('dropMongoRow', {
+      coll: 'users',
+      qr: { 'emails.address': { $eq: 'john.testing@example.com' } }
+    }).then(result => {
+      cy.log(result)
+    })
+    cy.visit('http://127.0.0.1:3000/entrySignUp')
+
+    cy.root().get('input[name="fullName"]')
+      .type('Testing John')
+
+    cy.root().get('input[name="email"]')
+      .type('john.testing@example.com')
+
+    cy.root().get('input[name="password"]')
+      .type('Apass453Fullfillingtherequireme*nts@')
+    cy.root().get('input[name="confirm"]')
+      .type('Apass453Fullfillingtherequireme*nts@')
+
+    cy.root().get('button[type="submit"]').click()
+
+    cy.location('pathname').should('include', 'studylist')
+
+
+    cy.task('queryMongo', {
+      coll: 'users',
+      qr: { 'emails.address': { $eq: 'john.testing@example.com' } }
+    }).then(rows => {
+      expect(rows).to.have.length(1)
+      cy.log(rows)
+    })
   })
 })
