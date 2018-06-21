@@ -6,7 +6,8 @@
     "fix": "eslint --fix .",
     "pretest": "",
     "cypress:gui": "node_modules/.bin/cypress open",
-    "cypress:headless": "node_modules/.bin/cypress run"
+    "cypress:headless": "node_modules/.bin/cypress run",
+    "meteor": "METEOR_PACKAGE_DIRS=../Packages ROOT_URL='http://127.0.0.1:3000' meteor run -p 3000 --settings=../config/lesionTrackerTravis.json"
   },
   "version": "1.0.0",
   "description": "",
