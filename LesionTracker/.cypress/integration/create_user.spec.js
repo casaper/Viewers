@@ -1,3 +1,5 @@
+import { find } from 'lodash'
+
 describe('view the first images', () => {
   it('has complete login form at main url when not logged in', () => {
     cy.visit('http://127.0.0.1:3000')
@@ -12,26 +14,64 @@ describe('view the first images', () => {
       .should('contain', 'Sign In.')
 
     cy.root()
-      .get('#signInPageEmailInput')
+      .get('input[name="email"]')
       .should('not.have.value')
       .should('have.prop', 'type', 'text')
+      .should('have.prop', 'placeholder', 'Your Email')
 
     cy.root()
-      .get('#signInPagePasswordInput')
+      .get('input[name="password"]')
       .should('not.have.value')
       .should('have.prop', 'type', 'password')
+      .should('have.prop', 'placeholder', 'Password')
+
+    cy.root()
+      .get('#entrySignIn')
+      .find('button')
+      .should('contain', 'Need an account?')
+      .should('contain', 'Forgot password?')
+      .should('contain', 'Sign In')
 
     cy.root()
       .get('#signInToAppButton')
       .should('be.disabled')
-      .should('contain', 'Sign In')
+  })
+
+  it('has a complete sign up form', () => {
+    cy.visit('http://127.0.0.1:3000')
+
+    cy.get('#needAnAccountButton').click()
 
     cy.root()
-      .get('#needAnAccountButton')
-      .should('contain', 'Need an account?')
+      .get('input[name="fullName"]')
+      .should('have.prop', 'placeholder', 'Full Name')
+      .should('have.prop', 'type', 'text')
+      .should('not.have.value')
 
     cy.root()
-      .get('#forgotPasswordButton')
-      .should('contain', 'Forgot password?')
+      .get('input[name="email"]')
+      .should('have.prop', 'placeholder', 'Email Address')
+      .should('have.prop', 'type', 'email')
+      .should('not.have.value')
+
+    cy.root()
+      .get('input[name="password"]')
+      .should('have.prop', 'placeholder', 'Password')
+      .should('have.prop', 'type', 'password')
+      .should('not.have.value')
+
+    cy.root()
+      .get('input[name="confirm"]')
+      .should('have.prop', 'placeholder', 'Confirm Password')
+      .should('have.prop', 'type', 'password')
+      .should('not.have.value')
+
+    cy.root()
+      .get('button[type="submit"]')
+      .should('contain', 'Join Now')
+
+    cy.root()
+      .get('button#signUpPageSignInButton')
+      .should('contain', 'Have an account? Sign in')
   })
 })
