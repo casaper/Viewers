@@ -26,7 +26,8 @@
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-meteor": "^4.0.0",
-    "eslint-plugin-react": "^6.3.0"
+    "eslint-plugin-react": "^6.3.0",
+    "lodash": "^4.17.10"
   },
   "main": "index.js",
   "repository": {
