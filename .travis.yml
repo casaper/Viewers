@@ -20,6 +20,7 @@ env:
     LC_ALL: en_US.UTF-8
     ORTHANC_IMG: casaper/orthanc-examples
     ORTHANC_NAME: orthanc_container
+    ORTHANC_URL: http://orthanc:orthanc@127.0.0.1:8042
     REPO: /home/travis/build/casaper/Viewers
     L_T_PATH:  /home/travis/build/casaper/Viewers/LesionTracker
     METEOR_EX: /home/travis/.meteor/meteor
