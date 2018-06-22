@@ -74,37 +74,45 @@ describe('view the first images', () => {
   })
 
   it('can sign up for an account', () => {
-    const testUserEmail = 'john.testing@example.com'
+    const fullName = 'Johny Tester'
+    const email = 'john.testing@example.com'
+    const password = 'Apass453Fullfillingtherequireme*nts@'
+    cy.mongoRestore()
 
-    cy.task('mongoDrop', {
-      coll: 'users',
-      find: { 'emails.address': { $eq: testUserEmail } }
-    }).then(result => {
-      cy.log(result)
-    })
     cy.visit('http://127.0.0.1:3000/entrySignUp')
 
-    cy.root().get('input[name="fullName"]')
-      .type('Testing John')
+    cy.root().get('input[name="fullName"]').type(fullName)
 
-    cy.root().get('input[name="email"]')
-      .type(testUserEmail)
+    cy.root().get('input[name="email"]').type(email)
 
-    cy.root().get('input[name="password"]')
-      .type('Apass453Fullfillingtherequireme*nts@')
-    cy.root().get('input[name="confirm"]')
-      .type('Apass453Fullfillingtherequireme*nts@')
+    cy.root().get('input[name="password"]').type(password)
+    cy.root().get('input[name="confirm"]').type(password)
 
     cy.root().get('button[type="submit"]').click()
 
     cy.location('pathname').should('include', 'studylist')
+    cy.get('a').contains('Johny T.').should('exist')
 
     cy.task('mongoFind', {
       coll: 'users',
-      find: { 'emails.address': { $eq: testUserEmail } }
+      find: { 'emails.address': { $eq: email } }
     }).then(rows => {
       expect(rows).to.have.length(1)
-      cy.log(rows)
+      expect(rows[0].emails[0].address).to.eql(email)
+      cy.log(rows[0].emails)
     })
+  })
+
+  it('can log in to testing user account', () => {
+    cy.mongoRestore()
+
+    cy.visit('http://127.0.0.1:3000/entrySignIn')
+
+    cy.get('input[name="email"]').type('testing.user@example.com')
+    cy.get('input[name="password"]').type('Apass453Fullfillingtherequireme*nts@')
+
+    cy.get('button').contains('Sign In').click()
+    cy.location('pathname').should('include', 'studylist')
+    cy.get('a').contains('Testing U.').should('exist')
   })
 })
