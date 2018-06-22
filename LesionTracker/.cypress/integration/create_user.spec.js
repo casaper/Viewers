@@ -75,10 +75,11 @@ describe('view the first images', () => {
   })
 
   it('can sign up for an account', () => {
+    const testUserEmail = 'john.testing@example.com'
 
-    cy.task('dropMongoRow', {
+    cy.task('mongoDrop', {
       coll: 'users',
-      qr: { 'emails.address': { $eq: 'john.testing@example.com' } }
+      find: { 'emails.address': { $eq: testUserEmail } }
     }).then(result => {
       cy.log(result)
     })
@@ -88,7 +89,7 @@ describe('view the first images', () => {
       .type('Testing John')
 
     cy.root().get('input[name="email"]')
-      .type('john.testing@example.com')
+      .type(testUserEmail)
 
     cy.root().get('input[name="password"]')
       .type('Apass453Fullfillingtherequireme*nts@')
@@ -100,9 +101,9 @@ describe('view the first images', () => {
     cy.location('pathname').should('include', 'studylist')
 
 
-    cy.task('queryMongo', {
+    cy.task('mongoFind', {
       coll: 'users',
-      qr: { 'emails.address': { $eq: 'john.testing@example.com' } }
+      find: { 'emails.address': { $eq: testUserEmail } }
     }).then(rows => {
       expect(rows).to.have.length(1)
       cy.log(rows)
