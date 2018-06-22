@@ -1,4 +1,3 @@
-
 describe('view the first images', () => {
   it('has complete login form at main url when not logged in', () => {
     cy.visit('http://127.0.0.1:3000')

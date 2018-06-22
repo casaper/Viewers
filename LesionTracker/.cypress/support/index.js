@@ -20,3 +20,4 @@
 // require('./commands')
 
 import './orthanc'
+import './mongoCommands'

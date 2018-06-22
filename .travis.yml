@@ -21,6 +21,8 @@ env:
     ORTHANC_IMG: casaper/orthanc-examples
     ORTHANC_NAME: orthanc_container
     ORTHANC_URL: http://orthanc:orthanc@127.0.0.1:8042
+    MONGO_URL: mongodb://127.0.0.1:3001/meteor
+    MONGO_DUMP_PATH: /tmp/test_mongo_dump.gz
     REPO: /home/travis/build/casaper/Viewers
     L_T_PATH:  /home/travis/build/casaper/Viewers/LesionTracker
     METEOR_EX: /home/travis/.meteor/meteor

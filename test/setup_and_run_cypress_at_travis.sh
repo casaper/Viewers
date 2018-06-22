@@ -31,13 +31,21 @@ function check_meteor_response() {
   curl -I "$ROOT_URL" || sleep 30
 }
 
+function create_mongodump() {
+  mongoimport --uri="$MONGO_URL" --collection users --type json --file test/testing_user.json
+  if [[ -f "$MONGO_DUMP_PATH" ]]; then rm "$MONGO_DUMP_PATH"; fi
+  mongodump --uri="$MONGO_URL" --archive="$MONGO_DUMP_PATH" --gzip
+}
+
 function start_meteor() {
   cd $L_T_PATH || return
-  $METEOR_EX run --settings=$REPO/config/lesionTrackerTravis.json &
+  $METEOR_EX run --settings="${REPO}/config/lesionTrackerTravis.json" &
+  check_meteor_response
   check_meteor_response
   check_meteor_response
   check_orthanc_response
   check_orthanc_response
+  create_mongodump &
 }
 
 function check_or_install() {
@@ -49,6 +57,7 @@ for PROG in curl python; do
 done
 
 check_or_install g++ build-essential
+check_or_install mongorestore mongo-tools
 
 # meteor may fail with gnutar that is normally shipped with debian
 # so we need to give it bsdtar as tar command
