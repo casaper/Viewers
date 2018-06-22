@@ -100,7 +100,6 @@ describe('view the first images', () => {
 
     cy.location('pathname').should('include', 'studylist')
 
-
     cy.task('mongoFind', {
       coll: 'users',
       find: { 'emails.address': { $eq: testUserEmail } }
