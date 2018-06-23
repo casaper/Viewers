@@ -8,8 +8,9 @@ describe('display dicom image', () => {
       overlay.get('.topright').should('contain', 'LUNG').should('contain', '1/68')
       cy.get('div.bottomleft.dicomTag').should('contain', 'W: 1225, L: -670')
       cy.get('div.topleft.dicomTag').should('contain', 'R00000004').should('contain', 'Example Patient')
-
-
+      cy.wait(1000).then(() => {
+        cy.get('.imageSlider').type(2)
+      })
     })
   })
 })

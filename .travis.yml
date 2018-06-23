@@ -1,35 +1,41 @@
 sudo: required
 
 language: node_js
-node_js: ["8"]
+node_js:
+  - '8'
 
 cache:
   directories:
+    - ~/.npm
+    - ~/.cache
+    - ~/.meteor/
     - node_modules
-    - $HOME/.meteor/
-    - LesionTracker/node_modules
-    - $HOME/.cache/Cypress
+    - $TRAVIS_BUILD_DIR/LesionTracker/node_modules
 
 services:
   - docker
+  - mongodb
 
 env:
   global:
     tar: bsdtar
     LANG: en_US.UTF-8
     LC_ALL: en_US.UTF-8
-    ORTHANC_IMG: casaper/orthanc-examples
+    ORTHANC_IMG: casaper/orthanc-examples:0.3
     ORTHANC_NAME: orthanc_container
+    L_T_PATH:  $TRAVIS_BUILD_DIR/LesionTracker
+    METEOR_EX: $HOME/.meteor/meteor
+    CYPRESS_EX: $TRAVIS_BUILD_DIR/LesionTracker/node_modules/.bin/cypress
+    METEOR_PACKAGE_DIRS: $TRAVIS_BUILD_DIR/Packages
     ORTHANC_URL: http://orthanc:orthanc@127.0.0.1:8042
-    MONGO_URL: mongodb://127.0.0.1:3001/meteor
-    MONGO_DUMP_PATH: /tmp/test_mongo_dump.gz
-    REPO: /home/travis/build/casaper/Viewers
-    L_T_PATH:  /home/travis/build/casaper/Viewers/LesionTracker
-    METEOR_EX: /home/travis/.meteor/meteor
-    CYPRESS: /home/travis/build/casaper/Viewers/LesionTracker/node_modules/.bin/cypress
-    METEOR_PACKAGE_DIRS: /home/travis/build/casaper/Viewers/Packages
+    MONGO_URL: mongodb://meteor:test@127.0.0.1:27017/ohif?authSource=admin
+    MONGO_DUMP_PATH: $TRAVIS_BUILD_DIR/test/default_test_db.gz
     ROOT_URL: http://127.0.0.1:3000
-    PORT: '3000'
+    PORT: 3000
+    CYPRESS_ORTHANC_URL: $ORTHANC_URL
+    CYPRESS_MONGO_URL: $MONGO_URL
+    CYPRESS_MONGO_DUMP_PATH: $MONGO_DUMP_PATH
+    CYPRESS_ROOT_URL: $ROOT_URL
 
 script:
-  - bash ./test/setup_and_run_cypress_at_travis.sh
+  - test/startup_meteor_and_tests.sh

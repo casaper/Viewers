@@ -1,1 +1,34 @@
-{"servers":{"dicomWeb":[{"name":"Orthanc","wadoUriRoot":"http://localhost:8042/wado","qidoRoot":"http://localhost:8042/dicom-web","wadoRoot":"http://localhost:8042/dicom-web","qidoSupportsIncludeField":false,"imageRendering":"wadouri","thumbnailRendering":"wadors","requestOptions":{"auth":"orthanc:orthanc","logRequests":true,"logResponses":false,"logTiming":true}}]},"defaultServiceType":"dicomWeb","dropCollections":true,"public":{"verifyEmail":false,"ui":{"studyListFunctionsEnabled":true,"leftSidebarOpen":false,"displaySetNavigationLoopOverSeries":false,"displaySetNavigationMultipleViewports":true,"autoPositionMeasurementsTextCallOuts":"TRLB"}},"proxy":{"enabled":true}}
+{
+  "servers": {
+    "dicomWeb": [{
+      "name": "Orthanc",
+      "wadoUriRoot": "http://orthanc:orthanc@127.0.0.1:8042/wado",
+      "qidoRoot": "http://orthanc:orthanc@127.0.0.1:8042/dicom-web",
+      "wadoRoot": "http://orthanc:orthanc@127.0.0.1:8042/dicom-web",
+      "qidoSupportsIncludeField": false,
+      "imageRendering": "wadouri",
+      "thumbnailRendering": "wadors",
+      "requestOptions": {
+        "auth": "orthanc:orthanc",
+        "logRequests": true,
+        "logResponses": false,
+        "logTiming": true
+      }
+    }]
+  },
+  "defaultServiceType": "dicomWeb",
+  "dropCollections": true,
+  "public": {
+    "verifyEmail": false,
+    "ui": {
+      "studyListFunctionsEnabled": true,
+      "leftSidebarOpen": false,
+      "displaySetNavigationLoopOverSeries": false,
+      "displaySetNavigationMultipleViewports": false,
+      "autoPositionMeasurementsTextCallOuts": "TRLB"
+    }
+  },
+  "proxy": {
+    "enabled": true
+  }
+}

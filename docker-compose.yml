@@ -1,40 +1,17 @@
 version: '3.6'
 services:
   mongo:
-    image: "mongo:latest"
+    image: mongo:latest
+    restart: always
     ports:
-      - "27017:27017"
-
-  lesiontracker_dev_build:
-    image: casaper/lesion-tracker-docker-image
-    ports:
-      - "3000:3000"
-      - "11115:11115"
-      - "4243:4243"
-    expose:
-      - "3000"
-      - "11115"
-      - "4243"
-    links:
-      - mongo
-      - orthanc
+      - '27017:27017'
     environment:
-      - MONGO_URL=mongodb://mongo:27017/ohif
-      - METEOR_PACKAGE_DIRS=/Packages
-      - tar=bsdtar
-      - ROOT_URL=http://localhost:3000
-      - PORT=3000
-    volumes:
-      - ./Packages:/Packages
-      - ./LesionTracker:/home/app/LesionTracker
-      - ./config/lesionTrackerDockerDimse.json:/home/app/app.json
-    command:
-      - /home/app/.meteor/meteor
-      - run
-      - --settings=/home/app/app.json
+      MONGO_INITDB_ROOT_USERNAME: meteor
+      MONGO_INITDB_ROOT_PASSWORD: test
+      MONGO_INITDB_DATABASE: hoif
 
   orthanc:
-    image: casaper/orthanc-examples
+    image: casaper/orthanc-examples:0.3
     ports:
       - 4242:4242
       - 8042:8042
