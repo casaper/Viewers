@@ -71,7 +71,7 @@ function start_meteor_then_cypress() {
     sleep 5
   done
   echo -e "${BOLD}Cypress${NORMAL}: ${BLUE}starting cypress test"
-  $(npm bin)/cypress run --record
+  $(npm bin)/cypress run
 }
 
 ## Setup of Travis CI environment with docker ORTHANC server

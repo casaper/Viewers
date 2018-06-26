@@ -1,7 +1,7 @@
 const MongoClient = require('mongodb').MongoClient
 
 // connection settings
-const url = 'mongodb://meteor:test@127.0.0.1:27017?authMechanism=DEFAULT&authSource=db'
+// const url = Cypress.env('MONGO_URL') || 'mongodb://meteor:test@127.0.0.1:27017?authSource=admin'
 const dbName = 'ohif'
 
 const connect = async () => MongoClient.connect(process.env.MONGO_URL)
