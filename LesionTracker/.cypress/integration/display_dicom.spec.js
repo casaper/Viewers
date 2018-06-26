@@ -41,5 +41,6 @@ describe('display dicom image', () => {
       // verify if correct ammount of images has been requested and received
       expect(wadoXHRRequests).to.have.length(seriesInstances.length)
     })
+
   })
 })
