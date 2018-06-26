@@ -1,16 +1,9 @@
-// const mongoUri = 'mongodb://meteor:test@127.0.0.1:27017/ohif'
-
 const mongoUrl = Cypress.env('MONGO_URL') || 'mongodb://meteor:test@127.0.0.1:27017/ohif?authSource=admin'
 const mongoDumpPath = Cypress.env('MONGO_DUMP_PATH') || '/tmp/test_mongo_dump.gz'
 const travisBuildDir = Cypress.env('TRAVIS_BUILD_DIR') || '..'
 
 Cypress.Commands.add('mongoRestore', () => {
-  cy.log(`env try: ${Cypress.env('MONGO_URL')}`)
-  console.log(`env try: ${Cypress.env('MONGO_URL')}`, Cypress.env('MONGO_URL'))
   cy.exec(`mongo '${mongoUrl}' --eval 'db.dropDatabase()'`).then((code, stdout, stderr) => {
-    cy.log('code: ', code)
-    cy.log('stdout: ', stdout)
-    cy.log('stderr: ', stderr)
     cy.exec(`mongorestore --uri='${mongoUrl}' --gzip --archive='${mongoDumpPath}'`)
   })
 })

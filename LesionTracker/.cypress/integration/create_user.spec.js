@@ -73,11 +73,11 @@ describe('view the first images', () => {
       .should('contain', 'Have an account? Sign in')
   })
 
-  it('can sign up for an account', () => {
+  it('can sign up for an account', async () => {
     const fullName = 'Johny Tester'
     const email = 'john.testing@example.com'
     const password = 'Apass453Fullfillingtherequireme*nts@'
-    cy.mongoRestore()
+    await cy.mongoRestore().promisify()
 
     cy.visit('http://127.0.0.1:3000/entrySignUp')
 
@@ -103,8 +103,8 @@ describe('view the first images', () => {
     })
   })
 
-  it('can log in to testing user account', () => {
-    cy.mongoRestore()
+  it('can log in to testing user account', async () => {
+    await cy.mongoRestore().promisify()
 
     cy.visit('http://127.0.0.1:3000/entrySignIn')
 

@@ -30,7 +30,7 @@ const login = (email = 'testing.user@example.com', password = 'Apass453Fullfilli
   cy.get('input[name="email"]').type(email)
   cy.get('input[name="password"]').type(password)
   cy.get('button').contains('Sign In').click()
-  return cy.wait(1)
+  return cy.wait(1).then(() => new Promise((r, _) => { r() }))
 }
 
 Cypress.Commands.add('login', login)

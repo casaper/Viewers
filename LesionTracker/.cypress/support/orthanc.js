@@ -1,23 +1,26 @@
+const { cyExec, cyRequest } = require('./promisifyedCys')
+
 const orthancUrl = 'http://orthanc:orthanc@127.0.0.1:8042'
 
-const getPatients = () => cy.request('GET', `${orthancUrl}/patients`).its('body')
 
-const getStudies = () => cy.request('GET', `${orthancUrl}/studies`).its('body')
+const getPatients = () => cyRequest({ url: `${orthancUrl}/patients` })
 
-const getSeries = () => cy.request('GET', `${orthancUrl}/series`).its('body')
-const getSerie = (serieId) => cy.request('GET', `${orthancUrl}/series/${serieId}`).its('body')
-const getSerieInstances = (serieId) => cy.request('GET', `${orthancUrl}/series/${serieId}/instances`).its('body')
+const getStudies = () => cyRequest({ url: `${orthancUrl}/studies` })
 
-const getInstances = () => cy.request('GET', `${orthancUrl}/instances`).its('body')
+const getSeries = () => cyRequest({ url: `${orthancUrl}/series` })
+const getSerie = (serieId) => cyRequest({ url: `${orthancUrl}/series/${serieId}` })
+const getSerieInstances = (serieId) => cyRequest({ url: `${orthancUrl}/series/${serieId}/instances` })
 
-const findQuery = (query) => cy.exec(
+const getInstances = () => cyRequest({ url: `${orthancUrl}/instances` })
+
+const findQuery = (query) => cyExec(
   `curl -X POST "$ORTHANC_URL/tools/find" --data '${JSON.stringify(query)}'`
 )
 
-const deletePatient = (patientId) => cy.request('DELETE', `${orthancUrl}/patients/${patientId}`)
-const deleteStudy = (studyId) => cy.request('DELETE', `${orthancUrl}/studies/${studyId}`)
-const deleteSerie = (serieId) => cy.request('DELETE', `${orthancUrl}/series/${serieId}`)
-const deleteInstance = (instanceId) => cy.request('DELETE', `${orthancUrl}/instances/${instanceId}`)
+const deletePatient = (patientId) => cyRequest({ method: 'DELETE', url: `${orthancUrl}/patients/${patientId}` })
+const deleteStudy = (studyId) => cyRequest({ method: 'DELETE', url: `${orthancUrl}/studies/${studyId}` })
+const deleteSerie = (serieId) => cyRequest({ method: 'DELETE', url: `${orthancUrl}/series/${serieId}` })
+const deleteInstance = (instanceId) => cyRequest({ method: 'DELETE', url: `${orthancUrl}/instances/${instanceId}` })
 
 // Get Requests to orthanc server API
 Cypress.Commands.add('orthancPatients', getPatients)
@@ -46,7 +49,7 @@ Cypress.Commands.add('getSerieInstanceUids', (StudyDate = '20180110') => {
 })
 
 Cypress.Commands.add('refreshOrthancServerImages', () => {
-  cy.exec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images').then(response => {
-    return cy.exec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
-  })
+  cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images').then(
+    () => cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
+  )
 })

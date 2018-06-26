@@ -18,6 +18,8 @@
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
+import 'babel-polyfill'
+import 'cypress-promise/register'
 
 import './commands'
 import './orthanc'
