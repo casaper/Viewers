@@ -28,7 +28,7 @@ const login = (email = 'testing.user@example.com', password = 'Apass453Fullfilli
   cy.server()
   cy.visit('http://127.0.0.1:3000/entrySignIn')
   cy.get('#btnTestDrive').click()
-  return cy.wait(1).then(() => new Promise((r, _) => { r() }))
+  return cy.wait(1)
 }
 
 Cypress.Commands.add('login', login)
