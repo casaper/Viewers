@@ -1,0 +1,32 @@
+sudo: required
+
+language: node_js
+node_js: ["8"]
+
+cache:
+  directories:
+    - node_modules
+    - $HOME/.meteor/
+    - LesionTracker/node_modules
+    - $HOME/.cache/Cypress
+
+services:
+  - docker
+
+env:
+  global:
+    tar: bsdtar
+    LANG: en_US.UTF-8
+    LC_ALL: en_US.UTF-8
+    ORTHANC_IMG: casaper/orthanc-examples
+    ORTHANC_NAME: orthanc_container
+    REPO: /home/travis/build/casaper/Viewers
+    L_T_PATH:  /home/travis/build/casaper/Viewers/LesionTracker
+    METEOR_EX: /home/travis/.meteor/meteor
+    CYPRESS: /home/travis/build/casaper/Viewers/LesionTracker/node_modules/.bin/cypress
+    METEOR_PACKAGE_DIRS: /home/travis/build/casaper/Viewers/Packages
+    ROOT_URL: http://127.0.0.1:3000
+    PORT: '3000'
+
+script:
+  - bash ./test/setup_and_run_cypress_at_travis.sh

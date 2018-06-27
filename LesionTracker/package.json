@@ -4,7 +4,10 @@
   "scripts": {
     "lint": "eslint .",
     "fix": "eslint --fix .",
-    "pretest": "npm run lint --silent"
+    "pretest": "",
+    "cypress:gui": "node_modules/.bin/cypress open",
+    "cypress:headless": "node_modules/.bin/cypress run",
+    "meteor": "METEOR_PACKAGE_DIRS=../Packages ROOT_URL='http://127.0.0.1:3000' meteor run -p 3000 --settings=../config/lesionTrackerTravis.json"
   },
   "version": "1.0.0",
   "description": "",
@@ -15,14 +18,18 @@
     "meteor-node-stubs": "^0.2.3"
   },
   "devDependencies": {
+    "assert": "^1.4.1",
     "babel-eslint": "^6.1.2",
+    "cypress": "^3.0.1",
     "eslint": "^3.7.0",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-import-resolver-meteor": "^0.3.3",
     "eslint-plugin-import": "^1.16.0",
     "eslint-plugin-jsx-a11y": "^2.2.2",
     "eslint-plugin-meteor": "^4.0.0",
-    "eslint-plugin-react": "^6.3.0"
+    "eslint-plugin-react": "^6.3.0",
+    "lodash": "^4.17.10",
+    "mongodb": "^3.0.10"
   },
   "main": "index.js",
   "repository": {
