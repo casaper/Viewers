@@ -25,7 +25,7 @@ describe('drawing laesion', () => {
   })
 
   it('can draw lesion', async () => {
-    await cy.mongoRestore('../test/timepoints_test_db.gz').promisify()
+    await cy.mongoRestore('../test/db_snapshots/02_series_associated.gz').promisify()
 
     await cy.login()
     // select serie to view

@@ -29,7 +29,6 @@ env:
     METEOR_PACKAGE_DIRS: $TRAVIS_BUILD_DIR/Packages
     ORTHANC_URL: http://orthanc:orthanc@127.0.0.1:8042
     MONGO_URL: mongodb://meteor:test@127.0.0.1:27017/ohif?authSource=admin
-    MONGO_DUMP_PATH: $TRAVIS_BUILD_DIR/test/default_test_db.gz
     ROOT_URL: http://127.0.0.1:3000
     PORT: 3000
     CYPRESS_ORTHANC_URL: $ORTHANC_URL

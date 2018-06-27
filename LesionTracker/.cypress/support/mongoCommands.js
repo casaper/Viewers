@@ -1,5 +1,5 @@
 const mongoUrl = Cypress.env('MONGO_URL') || 'mongodb://meteor:test@127.0.0.1:27017/ohif?authSource=admin'
-const mongoDumpPath = Cypress.env('MONGO_DUMP_PATH') || '/tmp/test_mongo_dump.gz'
+const mongoDumpPath = Cypress.env('MONGO_DUMP_PATH') || '../test/db_snapshots/01_initial_with_testing_user.gz'
 const travisBuildDir = Cypress.env('TRAVIS_BUILD_DIR') || '..'
 
 Cypress.Commands.add('mongoRestore', (archivePath = null) => {

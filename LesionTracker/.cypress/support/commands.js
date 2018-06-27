@@ -27,9 +27,7 @@
 const login = (email = 'testing.user@example.com', password = 'Apass453Fullfillingtherequireme*nts@') => {
   cy.server()
   cy.visit('http://127.0.0.1:3000/entrySignIn')
-  cy.get('input[name="email"]').type(email)
-  cy.get('input[name="password"]').type(password)
-  cy.get('button').contains('Sign In').click()
+  cy.get('#btnTestDrive').click()
   return cy.wait(1).then(() => new Promise((r, _) => { r() }))
 }
 

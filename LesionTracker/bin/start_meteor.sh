@@ -7,7 +7,7 @@ SCRIPT_PATH=$(sh -c "cd \"$(dirname "$0")\" && /bin/pwd")
 
 setup_meteor_env_vars
 function docker_compose_up() {
-  if [ "$(docker-compose ps | grep $1 | awk '{print $4}')" == "Up" ]
+  if [ "$(docker-compose ps | grep "$1" | awk '{print $4}')" == "Up" ]
   then
     true
   else
@@ -40,10 +40,10 @@ function mongo_responds() {
 }
 
 function start_orthanc() {
-  cd "$TRAVIS_BUILD_DIR"
+  cd "$TRAVIS_BUILD_DIR" || return
   docker_compose_up 'orthanc' || docker-compose start orthanc
-  docker_compose_up 'orthanc' && echo -e "${BOLD}Orthanc:${NORMAL} ${GREEN}orthanc is up"
-  cd "$EXEC_PATH"
+  docker_compose_up 'orthanc' && echo -e "${BOLD}Orthanc:${NORMAL} ${GREEN}orthanc is up${NO_COLOR}"
+  cd "$EXEC_PATH" || return
   until orthanc_responds; do
     echo -e "${BOLD}Orthanc:${NORMAL} ${YELLOW}waiting for orthanc dicomWeb server to respond on${NO_COLOR} ${ORTHANC_URL}"
     sleep 5
@@ -53,24 +53,24 @@ function start_orthanc() {
 }
 
 function start_mongo() {
-  cd "$TRAVIS_BUILD_DIR"
+  cd "$TRAVIS_BUILD_DIR" || return
   docker_compose_up 'mongo' || docker-compose start mongo
-  docker_compose_up 'mongo' && echo -e "${BOLD}MongoDB:${NORMAL} ${GREEN}mongodb is up"
+  docker_compose_up 'mongo' && echo -e "${BOLD}MongoDB:${NORMAL} ${GREEN}mongodb is up${NO_COLOR}"
 
   until mongo_responds; do
-    echo -e "${BOLD}MongoDB${NORMAL}: ${YELLOW}wait for server to be reachable"
+    echo -e "${BOLD}MongoDB${NORMAL}: ${YELLOW}wait for server to be reachable${NO_COLOR}"
     sleep 5
   done
-  echo -e "${BOLD}MongoDB${NORMAL}: ${BLUE}mongoimport server defaults"
-  mongorestore --uri "$MONGO_URL" --gzip --archive="${TRAVIS_BUILD_DIR}/test/default_test_db.gz"
-  echo -e "${BOLD}MongoDB${NORMAL}: ${GREEN}ready..."
-  cd "$EXEC_PATH"
+  echo -e "${BOLD}MongoDB${NORMAL}: ${BLUE}mongoimport server defaults${NO_COLOR}"
+  mongorestore --uri "$MONGO_URL" --gzip --archive="${TRAVIS_BUILD_DIR}/test/db_snapshots/01_initial_with_testing_user.gz"
+  echo -e "${BOLD}MongoDB${NORMAL}: ${GREEN}ready...${NO_COLOR}"
+  cd "$EXEC_PATH" || return
 }
 
 function startup_meteor() {
-  cd "$L_T_PATH"
+  cd "$L_T_PATH" || return
   until mongo_responds; do
-    echo -e "${BOLD}MongoDB${NORMAL}: ${YELLOW}wait for server to be reachable"
+    echo -e "${BOLD}MongoDB${NORMAL}: ${YELLOW}wait for server to be reachable${NO_COLOR}"
     sleep 5
   done
 
@@ -78,21 +78,9 @@ function startup_meteor() {
     echo -e "${BOLD}Orthanc:${NORMAL} ${YELLOW}waiting for orthanc dicomWeb server to respond on${NO_COLOR} ${ORTHANC_URL}"
     sleep 5
   done
-  echo -e "${BOLD}Meteor${NORMAL}: ${BLUE}starting"
-  meteor run --settings="${TRAVIS_BUILD_DIR}/config/lesionTrackerTravis.json" &
-  until meteor_responds; do
-    echo -e "${BOLD}Meteor${NORMAL}: ${YELLOW}wait for server to be reachable at ${ROOT_URL}"
-    sleep 10
-  done
-  echo -e "${BOLD}Meteor${NORMAL}: ${GREEN}ready..."
-  true
-}
-
-function startup_cypress() {
-  cd "$L_T_PATH"
-  echo -e "${BOLD}Cypress${NORMAL}: ${BLUE}starting"
-  $(npm bin)/cypress open
+  echo -e "${BOLD}Meteor${NORMAL}: ${BLUE}starting${NO_COLOR}"
+  meteor run --settings="${TRAVIS_BUILD_DIR}/config/lesionTrackerTravis.json"
 }
 
 start_orthanc &
-start_mongo && startup_meteor && startup_cypress
+start_mongo && startup_meteor
