@@ -25,3 +25,4 @@ import 'cypress-testing-library/add-commands';
 import './commands'
 import './orthanc'
 import './mongoCommands'
+

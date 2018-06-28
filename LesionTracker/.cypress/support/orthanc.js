@@ -48,8 +48,18 @@ Cypress.Commands.add('getSerieInstanceUids', (StudyDate = '20180110') => {
     .then(response => getSerieInstances(JSON.parse(response.stdout)[0]))
 })
 
+Cypress.Commands.add('deleteOrthancServerImages', () => {
+  return cy.exec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images')
+})
+Cypress.Commands.add('uploadOrthancServerImages', () => {
+  return cy.exec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
+})
+
 Cypress.Commands.add('refreshOrthancServerImages', () => {
-  cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images').then(
-    () => cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
-  )
+  cy.deleteOrthancServerImages().then(() => {
+    return cy.uploadOrthancServerImages()
+  })
+  // cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images').then(() => {
+  //   return cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
+  // })
 })
