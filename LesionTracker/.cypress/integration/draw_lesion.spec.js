@@ -39,10 +39,5 @@ describe('drawing laesion', () => {
     cy.visit(`http://127.0.0.1:3000/viewer/timepoints/${timePointRecord.timepointId}`)
 
     cy.get('#toggleTarget > :nth-child(1)').click(force).get('#bidirectional').should('be.visible')
-
-    // cy.wait(2000).then(() => {
-    //   cy.getAllByText('Bidirectional').trigger('click')
-    //   // cy.get('.toolbarSection #toggleTarget').trigger('click').trigger('click')
-    // })
   })
 })

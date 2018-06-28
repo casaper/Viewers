@@ -1,5 +1,4 @@
 #!/bin/bash
-shellcheck -x
 SCRIPT_PATH=$(sh -c "cd \"$(dirname "$0")\" && /bin/pwd")
 
 source "${SCRIPT_PATH}/setup_env.sh"
