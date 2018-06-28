@@ -35,6 +35,7 @@ function setup_meteor_env_vars() {
   fi
 
   if [[ ! $TRAVIS_BUILD_DIR ]]; then
+    echo
     export TRAVIS_BUILD_DIR=$(sh -c "cd \"$SCRIPT_PATH\" && cd ../.. && /bin/pwd")
   fi
 
@@ -46,4 +47,5 @@ function setup_meteor_env_vars() {
   export CYPRESS_MONGO_URL=$MONGO_URL
   export CYPRESS_MONGO_DUMP_PATH=$MONGO_DUMP_PATH
   export CYPRESS_ROOT_URL=$ROOT_URL
+  export CYPRESS_TRAVIS_BUILD_DIR=$TRAVIS_BUILD_DIR
 }

@@ -3,7 +3,6 @@ const { cyExec, cyRequest } = require('./promisifyedCys')
 const orthancUrl = Cypress.env('ORTHANC_URL') || 'http://orthanc:orthanc@127.0.0.1:8042'
 const orthancContainerName = Cypress.env('ORTHANC_NAME') || 'lesion-tracker_orthanc_1'
 
-
 const getPatients = () => cyRequest({ url: `${orthancUrl}/patients` })
 
 const getStudies = () => cyRequest({ url: `${orthancUrl}/studies` })

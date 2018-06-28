@@ -2,7 +2,7 @@ const force = { force: true }
 
 describe('drawing laesion', () => {
   it('associate series', async () => {
-    await cy.mongoRestore('../test/db_snapshots/01_initial_with_testing_user.gz').promisify()
+    await cy.mongoRestore(`${cy.env('TRAVIS_BUILD_DIR') || '..'}/test/db_snapshots/01_initial_with_testing_user.gz`).promisify()
     cy.login().then(() => {
 
       cy.visit('http://127.0.0.1:3000/studylist')

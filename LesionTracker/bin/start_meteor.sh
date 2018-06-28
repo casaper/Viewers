@@ -3,9 +3,8 @@
 EXEC_PATH="$PWD"
 SCRIPT_PATH=$(sh -c "cd \"$(dirname "$0")\" && /bin/pwd")
 
-. "${SCRIPT_PATH}/setup_env.sh"
+. "${SCRIPT_PATH}/load_env.sh"
 
-setup_meteor_env_vars
 function docker_compose_up() {
   if [ "$(docker-compose ps | grep "$1" | awk '{print $4}')" == "Up" ]
   then
