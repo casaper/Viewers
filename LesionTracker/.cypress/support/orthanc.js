@@ -1,6 +1,7 @@
 const { cyExec, cyRequest } = require('./promisifyedCys')
 
-const orthancUrl = 'http://orthanc:orthanc@127.0.0.1:8042'
+const orthancUrl = Cypress.env('ORTHANC_URL') || 'http://orthanc:orthanc@127.0.0.1:8042'
+const orthancContainerName = Cypress.env('ORTHANC_NAME') || 'lesion-tracker_orthanc_1'
 
 
 const getPatients = () => cyRequest({ url: `${orthancUrl}/patients` })
@@ -49,17 +50,12 @@ Cypress.Commands.add('getSerieInstanceUids', (StudyDate = '20180110') => {
 })
 
 Cypress.Commands.add('deleteOrthancServerImages', () => {
-  return cy.exec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images')
+  return cy.exec(`docker exec "${orthancContainerName}" /usr/bin/delete_images`)
 })
 Cypress.Commands.add('uploadOrthancServerImages', () => {
-  return cy.exec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
+  return cy.exec(`docker exec "${orthancContainerName}" /usr/bin/upload_images`)
 })
 
-Cypress.Commands.add('refreshOrthancServerImages', () => {
-  cy.deleteOrthancServerImages().then(() => {
-    return cy.uploadOrthancServerImages()
-  })
-  // cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/delete_images').then(() => {
-  //   return cyExec('docker exec "${ORTHANC_NAME:-lesion-tracker_orthanc_1}" /usr/bin/upload_images')
-  // })
+Cypress.Commands.add('reloadOrthancServerImages', () => {
+  return cy.exec(`docker exec "${orthancContainerName}" /bin/sh -c '/usr/bin/delete_images && /usr/bin/upload_images'`)
 })

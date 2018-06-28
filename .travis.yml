@@ -8,8 +8,7 @@ cache:
   directories:
     - ~/.npm
     - ~/.cache
-    - ~/.meteor/
-    - node_modules
+    - ~/.meteor
     - $TRAVIS_BUILD_DIR/LesionTracker/node_modules
 
 services:
@@ -32,9 +31,11 @@ env:
     ROOT_URL: http://127.0.0.1:3000
     PORT: 3000
     CYPRESS_ORTHANC_URL: $ORTHANC_URL
+    CYPRESS_ORTHANC_NAME: $ORTHANC_NAME
     CYPRESS_MONGO_URL: $MONGO_URL
     CYPRESS_MONGO_DUMP_PATH: $MONGO_DUMP_PATH
     CYPRESS_ROOT_URL: $ROOT_URL
+
 
 script:
   - test/startup_meteor_and_tests.sh
