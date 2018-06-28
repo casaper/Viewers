@@ -20,6 +20,7 @@
 // require('./commands')
 import 'babel-polyfill'
 import 'cypress-promise/register'
+import 'cypress-testing-library/add-commands';
 
 import './commands'
 import './orthanc'

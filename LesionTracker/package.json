@@ -27,6 +27,7 @@
     "babel-polyfill": "^6.26.0",
     "cypress": "^3.0.1",
     "cypress-promise": "^1.0.2",
+    "cypress-testing-library": "^2.2.0",
     "eslint": "^3.7.0",
     "eslint-config-airbnb": "^12.0.0",
     "eslint-import-resolver-meteor": "^0.3.3",

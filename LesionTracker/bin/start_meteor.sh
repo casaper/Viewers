@@ -62,6 +62,7 @@ function start_mongo() {
     sleep 5
   done
   echo -e "${BOLD}MongoDB${NORMAL}: ${BLUE}mongoimport server defaults${NO_COLOR}"
+  mongo "$MONGO_URL" --eval 'db.dropDatabase();'
   mongorestore --uri "$MONGO_URL" --gzip --archive="${TRAVIS_BUILD_DIR}/test/db_snapshots/01_initial_with_testing_user.gz"
   echo -e "${BOLD}MongoDB${NORMAL}: ${GREEN}ready...${NO_COLOR}"
   cd "$EXEC_PATH" || return

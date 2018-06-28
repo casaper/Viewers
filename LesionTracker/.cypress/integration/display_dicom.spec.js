@@ -1,5 +1,6 @@
 describe('display dicom image', () => {
   it('shows dicom image', async () => {
+    await cy.mongoRestore('../test/db_snapshots/01_initial_with_testing_user.gz').promisify()
     await cy.refreshOrthancServerImages()
 
     // Get all the instances from one dates serie
