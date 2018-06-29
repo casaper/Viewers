@@ -1,77 +1,133 @@
 #!/bin/bash
+SCRIPT_ABSOLUTE_FILE_PATH="$(cd "$(dirname "$BASH_SOURCE")"; pwd)/$(basename "$BASH_SOURCE")"
+SCRIPT_FILE_NAME="${SCRIPT_ABSOLUTE_FILE_PATH##*/}"
+SCRIPT_ABSOLUTE_PATH="${SCRIPT_ABSOLUTE_FILE_PATH//\/$SCRIPT_FILE_NAME/}"
 
-# Colors for shell output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[0;33m'
-BLUE='\033[0;34m'
-NO_COLOR='\033[0m' # No Color
+. "${LESION_TRACKER_PATH}/bin/shell_colors.sh"
 
-BOLD='\033[1m'
-NORMAL='\033[28m'
+function orthanc_responds() {
+  if curl -I "$ORTHANC_URL" &> /dev/null; then
+    true
+  else
+    false
+  fi
+}
+
+function wait_for_orthanc_respond() {
+  until orthanc_responds; do
+    echo -e "${INVERT_BOLD}Orthanc${INVERT_BOLD_RE}: " \
+              "${YELLOW}wait for server to be reachable${DEFAULT_COLOR}"
+    sleep 5
+  done
+  return
+}
+
+function meteor_responds() {
+  if curl -I "$ROOT_URL" &> /dev/null; then
+    true
+  else
+    false
+  fi
+}
+
+function wait_for_meteor_respond() {
+  until meteor_responds; do
+    echo -e "${INVERT_BOLD}Meteor${INVERT_BOLD_RE}: " \
+              "${YELLOW}waiting for${DEFAULT_COLOR} ${UNDERLINED_BOLD}${ROOT_URL}${UNDERLINED_BOLD_RE} " \
+              "${YELLOW}response${DEFAULT_COLOR}"
+    sleep 5
+  done
+  return
+}
+
+function mongo_responds() {
+  if mongo "$MONGO_URL" --eval ';' &> /dev/null; then
+    true
+  else
+    false
+  fi
+}
+
+function wait_for_mongo_respond() {
+  until mongo_responds; do
+    echo -e "${INVERT_BOLD}MongoDB${INVERT_BOLD_RE}: " \
+              "${YELLOW}wait for server to be reachable${DEFAULT_COLOR}"
+    sleep 5
+  done
+  return
+}
 
 # pull and setup docker orthanc server - docker image specified in ./.travis.yml
 function start_orthanc_server() {
-  echo -e "${BOLD}Orthanc${NORMAL}: ${BLUE}pull docker image${NO_COLOR} (${GREEN} ${ORTHANC_IMG} ${NO_COLOR})"
+  echo -e "${INVERT_BOLD}Orthanc${INVERT_BOLD_RE}: " \
+            "${BLUE}pull docker image${DEFAULT_COLOR} (${BOLD} ${ORTHANC_IMG} ${BOLD_RE})"
   docker pull "$ORTHANC_IMG"
-  echo -e "${BOLD}Orthanc${NORMAL}: ${BLUE}starting docker container${NO_COLOR}"
+  echo -e "${INVERT_BOLD}Orthanc${INVERT_BOLD_RE}: " \
+            "${BLUE}starting docker container${DEFAULT_COLOR}"
   docker run -d --name "$ORTHANC_NAME" -p 127.0.0.1:4242:4242 -p 127.0.0.1:8042:8042 "$ORTHANC_IMG"
-  until curl -I "$ORTHANC_URL/app/explorer.html" &> /dev/null; do
-    echo -e "${BOLD}Orthanc${NORMAL}: ${YELLOW}waiting for Orthanc server to be available${NO_COLOR}"
-    sleep 5
-  done
-  echo -e "${BOLD}Orthanc${NORMAL}: ${BLUE}trigger image upload${NO_COLOR}"
-  docker exec "$ORTHANC_NAME" /usr/bin/upload_images
-  echo -e "${BOLD}Orthanc${NORMAL}: ${GREEN}ready...${NO_COLOR}"
+  refresh_orthanc_images && echo -e "${INVERT_BOLD}Orthanc${INVERT_BOLD_RE}: " \
+                                      "${GREEN}ready...${DEFAULT_COLOR}"
+}
+
+function refresh_orthanc_images() {
+  wait_for_orthanc_respond
+  echo -e "${INVERT_BOLD}Orthanc:${INVERT_BOLD_RE} ${BLUE}  refreshing Orthanc server images  ${BLUE_RE}"
+  docker-compose exec orthanc /bin/sh -c '/usr/bin/delete_images && /usr/bin/upload_images'
 }
 
 function install_meteor() {
-  echo -e "${BOLD}Meteor${NORMAL}: ${BLUE}install meteor, if executable not present from cache${NO_COLOR}"
+  echo -e "${INVERT_BOLD}Meteor${INVERT_BOLD_RE}: " \
+            "${BLUE}install meteor, if executable not present from cache${DEFAULT_COLOR}"
   type "$METEOR_EX" || curl https://install.meteor.com | /bin/sh
 }
 
 function npm_and_cypress_install() {
-  cd LesionTracker
-  echo -e "${BOLD}NPM${NORMAL}: ${BLUE}run npm install and then install cypress${NO_COLOR} (pwd: ${PWD})"
+  cd "$LESION_TRACKER_PATH" || exit 1
+  echo -e "${INVERT_BOLD}NPM${INVERT_BOLD_RE}: " \
+            "${BLUE}run npm install and then install cypress${DEFAULT_COLOR} (pwd:${BOLD} ${PWD} ${BOLD_RE})"
   $METEOR_EX npm install && $CYPRESS install
-  cd ..
+  cd "$TRAVIS_BUILD_DIR" || exit 1
 }
 
 
 # check if command is present, else install with apt
 function check_or_install() {
-  echo -e "${BOLD}Apt${NORMAL}: ${BLUE}check ${NO_COLOR}${BOLD} ${1}${NORMAL}"
-  type "$1" || sudo apt-get install -y "$2" && echo -e "${BOLD}Apt${NORMAL}: ${GREEN} installed ${2}${NO_COLOR}"
+  echo -e "${INVERT_BOLD}Apt${INVERT_BOLD_RE}: " \
+            "${BLUE}check ${DEFAULT_COLOR}${BOLD} ${1}${INVERT_BOLD_RE}"
+  type "$1" || sudo apt-get install -y "$2" \
+    && echo -e "${INVERT_BOLD}Apt${INVERT_BOLD_RE}: ${GREEN} installed" \
+                 "${BOLD} ${2} ${BOLD_RE}${DEFAULT_COLOR}"
 }
 
 function setup_mongodb() {
   until nc -z 127.0.0.1 27017 &> /dev/null; do
-    echo -e "${BOLD}MongoDB${NORMAL}: ${YELLOW}wait for server to be reachable"
+    echo -e "${INVERT_BOLD}MongoDB${INVERT_BOLD_RE}:${YELLOW} wait for mongo service to be reachable${DEFAULT_COLOR}"
     sleep 5
   done
-  echo -e "${BOLD}MongoDB${NORMAL}: ${BLUE}create ${NO_COLOR}${BOLD}meteor${NORMAL}${BLUE}g user on mongo server${NO_COLOR}"
+  echo -e "${INVERT_BOLD}MongoDB${INVERT_BOLD_RE}:${BLUE} create${DEFAULT_COLOR}" \
+            "${BOLD} meteor ${BOLD_RE}" \
+            "${BLUE} user on mongo server${DEFAULT_COLOR}"
   sudo mongo 'mongodb://127.0.0.1:27017/admin' --eval 'db.createUser({user:"meteor",pwd:"test",roles:["root"]})'
-  echo -e "${BOLD}MongoDB${NORMAL}: ${BLUE}mongoimport server defaults${NO_COLOR}"
-  mongorestore --uri "$MONGO_URL" --gzip --archive="test/db_snapshots/01_initial_with_testing_user.gz"
-  echo -e "${BOLD}MongoDB${NORMAL}: ${GREEN}ready...${NO_COLOR}"
+  echo -e "${INVERT_BOLD}MongoDB${INVERT_BOLD_RE}: " \
+            "${BLUE}mongoimport server defaults${DEFAULT_COLOR}"
+  mongorestore --uri "$MONGO_URL" --gzip --archive="$MONGO_INITIAL_DB" \
+    && echo -e "${INVERT_BOLD}MongoDB${INVERT_BOLD_RE}: ${GREEN}ready...${DEFAULT_COLOR}"
 }
 
 function start_meteor_then_cypress() {
-  cd LesionTracker
-  echo -e "${BOLD}Meteor${NORMAL}: ${BLUE}starting meteor (pwd: ${PWD})"
-  $METEOR_EX run --settings="../config/lesionTrackerTravis.json" &
-  until curl -I "$ROOT_URL" &> /dev/null
-  do
-    echo -e "${BOLD}Meteor${NORMAL}: ${YELLOW}waiting for${NO_COLOR}${BOLD} ${ROOT_URL} ${NORMAL}${YELLOW}response${NO_COLOR}"
-    sleep 10
-  done
-
-  until curl -I "$ORTHANC_URL/app/explorer.html" &> /dev/null; do
-    echo -e "${BOLD}Orthanc${NORMAL}: ${YELLOW}waiting for Orthanc server to be available${NO_COLOR}"
-    sleep 5
-  done
-  echo -e "${BOLD}Cypress${NORMAL}: ${BLUE}starting cypress test${NO_COLOR}"
-  $(npm bin)/cypress run
+  cd "$LESION_TRACKER_PATH" || exit 1
+  echo -e "${INVERT_BOLD}Meteor${INVERT_BOLD_RE}: " \
+            "${BLUE}starting meteor ${DEFAULT_COLOR}(pwd: ${PWD})"
+  $METEOR_EX run --settings="$LESION_TRACKER_SETTINGS" &
+  wait_for_orthanc_respond
+  wait_for_meteor_respond
+  echo -e "${INVERT_BOLD}Cypress${INVERT_BOLD_RE}: " \
+            "${UNDERLINED_BOLD}${BLUE}starting cypress test${RESET_FORMAT}"
+  echo -e "${RED} CHECK IF ORTHANC CONTAINER NAME IS RIGHT ${DEFAULT_COLOR}"
+  echo "$CYPRESS_ORTHANC_NAME"
+  docker container ls
+  docker container ls | grep orthanc | awk '{print $NF}'
+  $(npm bin)/cypress run --record
 }
 
 ## Setup of Travis CI environment with docker ORTHANC server

@@ -17,26 +17,45 @@ services:
 
 env:
   global:
-    tar: bsdtar
     LANG: en_US.UTF-8
     LC_ALL: en_US.UTF-8
+
+    # LesionTrackers meteor chokes without bsdtar as default tar in place
+    tar: bsdtar
+
+    # Orthanc docker image and container name for running `docker exec` within scripts
     ORTHANC_IMG: casaper/orthanc-examples:0.3
     ORTHANC_NAME: orthanc_container
-    L_T_PATH:  $TRAVIS_BUILD_DIR/LesionTracker
-    METEOR_EX: $HOME/.meteor/meteor
+
+    # executables within env var, so script can not install them in case
+    # cypress' cache has put them allready in place
     CYPRESS_EX: $TRAVIS_BUILD_DIR/LesionTracker/node_modules/.bin/cypress
-    METEOR_PACKAGE_DIRS: $TRAVIS_BUILD_DIR/Packages
+    METEOR_EX: $HOME/.meteor/meteor
+
+    # urls with auth included
     ORTHANC_URL: http://orthanc:orthanc@127.0.0.1:8042
     MONGO_URL: mongodb://meteor:test@127.0.0.1:27017/ohif?authSource=admin
+
+    MONGO_SNAPSHOTS_PATH: $TRAVIS_BUILD_DIR/test/db_snapshots
+    MONGO_INITIAL_DB: $MONGO_SNAPSHOTS_PATH/01_initial_with_testing_user.gz
+    LESION_TRACKER_PATH: $TRAVIS_BUILD_DIR/LesionTracker
+    LESION_TRACKER_SETTINGS: $TRAVIS_BUILD_DIR/config/lesionTrackerTravis.json
+
+    # Meteor configuration
+    METEOR_PACKAGE_DIRS: $TRAVIS_BUILD_DIR/Packages
     ROOT_URL: http://127.0.0.1:3000
     PORT: 3000
+
+    # Alias Env variables with CYPRESS_ prefix for accessability within cypress.
+    # E.g.: `cy.env('ORTHANC_URL')` for the alias $CYPRESS_ORTHANC_URL
     CYPRESS_ORTHANC_URL: $ORTHANC_URL
     CYPRESS_ORTHANC_NAME: $ORTHANC_NAME
     CYPRESS_MONGO_URL: $MONGO_URL
+    CYPRESS_MONGO_SNAPSHOTS_PATH: $MONGO_SNAPSHOTS_PATH
     CYPRESS_MONGO_DUMP_PATH: $MONGO_DUMP_PATH
+    CYPRESS_MONGO_INITIAL_DB: $MONGO_INITIAL_DB
     CYPRESS_ROOT_URL: $ROOT_URL
     CYPRESS_TRAVIS_BUILD_DIR: $TRAVIS_BUILD_DIR
-
 
 script:
   - test/startup_meteor_and_tests.sh

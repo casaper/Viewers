@@ -14,7 +14,7 @@ const getSerieInstances = (serieId) => cyRequest({ url: `${orthancUrl}/series/${
 const getInstances = () => cyRequest({ url: `${orthancUrl}/instances` })
 
 const findQuery = (query) => cyExec(
-  `curl -X POST "$ORTHANC_URL/tools/find" --data '${JSON.stringify(query)}'`
+  `curl -X POST "${orthancUrl}/tools/find" --data '${JSON.stringify(query)}'`
 )
 
 const deletePatient = (patientId) => cyRequest({ method: 'DELETE', url: `${orthancUrl}/patients/${patientId}` })
