@@ -6,5 +6,6 @@
   "supportFile": ".cypress/support",
   "videosFolder": ".cypress/videos",
   "viewportWidth": 1900,
-  "viewportHeight": 1080
+  "viewportHeight": 1080,
+  "projectId": "eusvva"
 }

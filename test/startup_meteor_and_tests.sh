@@ -72,7 +72,7 @@ function start_orthanc_server() {
 function refresh_orthanc_images() {
   wait_for_orthanc_respond
   echo -e "${INVERT_BOLD}Orthanc:${INVERT_BOLD_RE} ${BLUE}  refreshing Orthanc server images  ${BLUE_RE}"
-  docker-compose exec orthanc /bin/sh -c '/usr/bin/delete_images && /usr/bin/upload_images'
+  docker exec "${ORTHANC_NAME}" /bin/sh -c '/usr/bin/delete_images && /usr/bin/upload_images'
 }
 
 function install_meteor() {
@@ -124,9 +124,38 @@ function start_meteor_then_cypress() {
   echo -e "${INVERT_BOLD}Cypress${INVERT_BOLD_RE}: " \
             "${UNDERLINED_BOLD}${BLUE}starting cypress test${RESET_FORMAT}"
   echo -e "${RED} CHECK IF ORTHANC CONTAINER NAME IS RIGHT ${DEFAULT_COLOR}"
-  echo "$CYPRESS_ORTHANC_NAME"
-  docker container ls
-  docker container ls | grep orthanc | awk '{print $NF}'
+  export CYPRESS_ORTHANC_URL=$ORTHANC_URL
+  export CYPRESS_ORTHANC_NAME=$ORTHANC_NAME
+  export CYPRESS_MONGO_URL=$MONGO_URL
+  export CYPRESS_MONGO_SNAPSHOTS_PATH=$MONGO_SNAPSHOTS_PATH
+  export CYPRESS_MONGO_DUMP_PATH=$MONGO_DUMP_PATH
+  export CYPRESS_MONGO_INITIAL_DB=$MONGO_INITIAL_DB
+  export CYPRESS_ROOT_URL=$ROOT_URL
+  export CYPRESS_TRAVIS_BUILD_DIR=$TRAVIS_BUILD_DIR
+  echo "LANG: $LANG"
+  echo "LC_ALL: $LC_ALL"
+  echo "tar: $tar"
+  echo "ORTHANC_IMG: $ORTHANC_IMG"
+  echo "ORTHANC_NAME: $ORTHANC_NAME"
+  echo "CYPRESS_EX: $CYPRESS_EX"
+  echo "METEOR_EX: $METEOR_EX"
+  echo "ORTHANC_URL: $ORTHANC_URL"
+  echo "MONGO_URL: $MONGO_URL"
+  echo "MONGO_SNAPSHOTS_PATH: $MONGO_SNAPSHOTS_PATH"
+  echo "MONGO_INITIAL_DB: $MONGO_INITIAL_DB"
+  echo "LESION_TRACKER_PATH: $LESION_TRACKER_PATH"
+  echo "LESION_TRACKER_SETTINGS: $LESION_TRACKER_SETTINGS"
+  echo "METEOR_PACKAGE_DIRS: $METEOR_PACKAGE_DIRS"
+  echo "ROOT_URL: $ROOT_URL"
+  echo "PORT: $PORT"
+  echo "CYPRESS_ORTHANC_URL: $CYPRESS_ORTHANC_URL"
+  echo "CYPRESS_ORTHANC_NAME: $CYPRESS_ORTHANC_NAME"
+  echo "CYPRESS_MONGO_URL: $CYPRESS_MONGO_URL"
+  echo "CYPRESS_MONGO_SNAPSHOTS_PATH: $CYPRESS_MONGO_SNAPSHOTS_PATH"
+  echo "CYPRESS_MONGO_DUMP_PATH: $CYPRESS_MONGO_DUMP_PATH"
+  echo "CYPRESS_MONGO_INITIAL_DB: $CYPRESS_MONGO_INITIAL_DB"
+  echo "CYPRESS_ROOT_URL: $CYPRESS_ROOT_URL"
+  echo "CYPRESS_TRAVIS_BUILD_DIR: $CYPRESS_TRAVIS_BUILD_DIR"
   $(npm bin)/cypress run --record
 }
 
