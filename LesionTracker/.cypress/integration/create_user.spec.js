@@ -1,4 +1,4 @@
-describe('view the first images', () => {
+describe('Login and Signup forms', () => {
   it('has complete login form at main url when not logged in', () => {
     cy.visit('http://127.0.0.1:3000')
 
@@ -77,7 +77,8 @@ describe('view the first images', () => {
     const fullName = 'Johny Tester'
     const email = 'john.testing@example.com'
     const password = 'Apass453Fullfillingtherequireme*nts@'
-    await cy.mongoRestore().promisify()
+    await cy.task('mongoRestore')
+    // await cy.mongoRestore().promisify()
 
     cy.visit('http://127.0.0.1:3000/entrySignUp')
 
@@ -104,7 +105,7 @@ describe('view the first images', () => {
   })
 
   it('can log in to testing user account', async () => {
-    await cy.mongoRestore().promisify()
+    await cy.task('mongoRestore')
 
     cy.visit('http://127.0.0.1:3000/entrySignIn')
 

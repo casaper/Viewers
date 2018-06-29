@@ -1,7 +1,7 @@
 describe('display dicom image', () => {
   it('shows dicom image', async () => {
-    await cy.mongoRestore(Cypress.env('MONGO_INITIAL_DB')).promisify()
-    await cy.reloadOrthancServerImages().promisify()
+    await cy.task('mongoRestore', Cypress.env('MONGO_INITIAL_DB'))
+    await cy.task('orthancReload')
 
     // Get all the instances from one dates serie
     const seriesInstances = await cy.getSerieInstanceUids('20180110').promisify()

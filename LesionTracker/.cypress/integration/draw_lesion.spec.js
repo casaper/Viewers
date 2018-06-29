@@ -2,7 +2,7 @@ const force = { force: true }
 
 describe('drawing laesion', () => {
   it('associate series', async () => {
-    await cy.mongoRestore(Cypress.env('MONGO_INITIAL_DB')).promisify()
+    await cy.task('mongoRestore', Cypress.env('MONGO_INITIAL_DB'))
     cy.login().then(() => {
 
       cy.visit('http://127.0.0.1:3000/studylist')
@@ -27,7 +27,7 @@ describe('drawing laesion', () => {
   })
 
   it('can draw lesion', async () => {
-    await cy.mongoRestore(`${Cypress.env('MONGO_SNAPSHOTS_PATH')}/02_series_associated.gz`).promisify()
+    await cy.task('mongoRestore', `${Cypress.env('MONGO_SNAPSHOTS_PATH')}/02_series_associated.gz`)
     const timePointRecord = await cy.task('mongoFindOne', { coll: 'timepoints',
       find: { studyInstanceUids: { '$eq': '1.3.6.1.4.1.14519.5.2.1.4320.5030.248552508121514040263344871813' }}
     }).promisify()
