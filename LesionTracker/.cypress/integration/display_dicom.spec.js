@@ -4,7 +4,7 @@ describe('display dicom image', () => {
     // await cy.task('orthancReload')
 
     // Get all the instances from one dates serie
-    const seriesInstances = await cy.getSerieInstanceUids('20180110').promisify()
+    const seriesInstances = await cy.task('getOrthancSeriesInstancesForDate').promisify()
     await cy.login()
 
     // Setup route listeners for all images in serie
