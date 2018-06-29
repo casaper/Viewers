@@ -1,6 +1,7 @@
 const { exec } = require('child_process')
 
 const execPromise = (shellCommand) => {
+  console.log(shellCommand)
   return new Promise((resolve, reject) => {
     exec(shellCommand, (error, stdout, stderr) => {
         if (error) {
