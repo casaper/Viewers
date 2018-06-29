@@ -1,0 +1,39 @@
+{
+  "_id": "k45WPfCdTWPHFR8ny",
+  "createdAt": {
+    "$date": "2018-06-22T13:35:59.399Z"
+  },
+  "services": {
+    "password": {
+      "bcrypt": "$2a$10$OovO1U939XeIJnpZxhGfuOxYXUgQTOjH5bwMjfhdgaY5wwJWUEwl.",
+      "setDate": {
+        "$date": "2018-06-22T13:35:59.435Z"
+      }
+    },
+    "resume": {
+      "loginTokens": []
+    }
+  },
+  "emails": [{
+    "address": "testing.user@example.com",
+    "verified": false
+  }],
+  "dexterity": 12,
+  "role": "user",
+  "profile": {
+    "fullName": "Testing User"
+  },
+  "previousPasswords": [{
+    "hashedPassword": 594421121,
+    "createdAt": {
+      "$date": "2018-06-22T13:35:59.434Z"
+    },
+    "select": false
+  }],
+  "priorLoginDate": {
+    "$date": "2018-06-22T13:35:59.445Z"
+  },
+  "lastLoginDate": {
+    "$date": "2018-06-22T13:35:59.445Z"
+  }
+}

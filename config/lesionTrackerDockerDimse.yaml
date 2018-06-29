@@ -1,0 +1,53 @@
+---
+  servers:
+    # dicomWeb:
+    #   -
+    #     name: "Orthanc"
+    #     wadoUriRoot: "http://orthanc:8042/wado"
+    #     qidoRoot: "http://orthanc:8042/dicom-web"
+    #     wadoRoot: "http://orthanc:8042/dicom-web"
+    #     qidoSupportsIncludeField: false
+    #     imageRendering: "wadouri"
+    #     thumbnailRendering: "wadors"
+    #     requestOptions:
+    #       auth: "orthanc:orthanc"
+    #       logRequests: true
+    #       logResponses: false
+    #       logTiming: true
+    dimse:
+      -
+        name: "ORTHANC_DIMSE"
+        wadoUriRoot: "http://orthanc:8042/wado"
+        qidoRoot: "http://orthanc:8042/dicom-web"
+        wadoRoot: "http://orthanc:8042/dicom-web"
+        requestOptions:
+          auth: "orthanc:orthanc"
+          logRequests: true
+          logResponses: false
+          logTiming: true
+        peers:
+          -
+            host: "orthanc"
+            port: 4242
+            aeTitle: "ORTHANC"
+            default: true
+            server: false
+          -
+            host: "0.0.0.0"
+            port: 4243
+            aeTitle: "OHIFDCM"
+            default: true
+            server: true
+  defaultServiceType: "dimse"
+  dropCollections: true
+  public:
+    verifyEmail: false
+    ui:
+      studyListFunctionsEnabled: true
+      leftSidebarOpen: false
+      displaySetNavigationLoopOverSeries: false
+      displaySetNavigationMultipleViewports: true
+      autoPositionMeasurementsTextCallOuts: "TRLB"
+  proxy:
+    enabled: true
+

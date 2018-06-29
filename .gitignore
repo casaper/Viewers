@@ -8,5 +8,7 @@ node_modules
 npm-debug.log
 Packages/active-entry/helloworld/
 LesionTracker/tests/nightwatch/reports/
-package-lock.json
-docs/_book
+docs/_booktest/images
+test/images
+LesionTracker/.cypress/integration/examples
+LesionTracker/package-lock.json
