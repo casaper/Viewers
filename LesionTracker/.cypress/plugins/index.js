@@ -31,8 +31,16 @@ const getOrthancSeries = () => {
   return execApiPromise({ url })
 }
 
+const orthancResponds = () => {
+  return execPromise(
+    `curl -i "${proccess.env.ORTHANC_URL}/app/explorer.html"`
+  )
+}
+
 const findOrthancSerieByDate = (StudyDate) => {
+  StudyDate = StudyDate || '20180110'
   const url = `${process.env.ORTHANC_URL}/tools/find`
+
   return execApiPromise({ method: 'POST', url, data: { Level: 'Series', Query: { StudyDate } } })
 }
 
@@ -56,6 +64,7 @@ module.exports = (on, config) => {
     getOrthancSeries,
     getOrthancSeriesInstances,
     findOrthancSerieByDate,
-    getOrthancSeriesInstancesForDate
+    getOrthancSeriesInstancesForDate,
+    orthancResponds
   })
 }
